@@ -1,0 +1,368 @@
+" 周春华  2009 08 11 设置
+
+" ------------------------------------------------------------------------------
+" vim 模式、显示方面的设置
+" ------------------------------------------------------------------------------
+"
+" 不兼容vi的操作
+set nocompatible
+" 退出vim后，再进vim，读取上次搜索等历史记录
+set viminfo='20,\"50
+" vim操作中，记录操作的条数
+set history=200
+" Enable pathogen
+call pathogen#infect()
+" 开启文件类型判断插件
+filetype plugin on
+filetype indent on
+" 不使用备份
+set nobackup
+set nowb
+" 不使用交换文件
+set noswapfile
+
+" Vistual模式下显示选中的行数
+set showcmd
+
+" 设置vim 背景颜色等主题
+colorscheme evening
+
+" 永远都显示状态栏
+set laststatus=2
+
+" 状态栏上显示光标所在的位置
+set ruler
+
+" 如果颜色数大于2，或者使用GUI界面，则打开语法高亮显示和搜索高亮显示
+if &t_Co > 2 || has("gui_running")
+    syntax on
+    set hlsearch
+endif
+
+" 如果使用GUI，打开鼠标的功能，以及设置字体
+if has("gui")
+    set mouse=a
+    set guitablabel=%t
+
+    set guifont=Inconsolata\ 11
+    "set guifont=Liberation\ Mono\ 10
+    "set guifont=DejaVu\ Sans\ Mono\ 10
+    "set guifont=Monospace\ 10
+    "set guifont=Droid\ Sans\ Mono\ 10
+    "set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
+    "set guifont=Courier\ New\ 11
+    "set guifont=Andale\ Mono\ Normal\ 10
+else
+" 否则只有在插入模式下，鼠标管用
+    set mouse=i
+    " 高亮当前行
+    set  cursorline
+    hi cursorline    guibg=#000000
+    hi CursorColumn  guibg=#333333
+endif
+
+" 显示行号
+set number
+
+" ------------------------------------------------------------------------------
+" 编码方面的设置
+" ------------------------------------------------------------------------------
+"
+set fileformats=unix
+
+" 打开一个文件试图用下面的编码
+set fileencodings=utf-8,gb2312,cp936,gbk,big5,ucs-bom,latin
+
+" 下面设定保存文件时，文件保存格式，windows平台强制保存为GBK，其他保存为Utf-8
+if has("win32")
+    set fileencoding=cp936
+else
+    set fileencoding=utf-8
+endif
+
+set encoding=utf-8
+
+" 跟显示相关的，跟终端环境设成一致
+let &termencoding=&encoding
+" set termencoding=cp936
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+"  处理中文时，特殊处理的
+" ------------------------------------------------------------------------------
+"
+set helplang=cn
+" 正确地处理中文字符的折行和拼接
+set formatoptions+=rmM
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For ARM asm syntax
+" 让Vim支持ARM汇编的语法高亮
+" ------------------------------------------------------------------------------
+"
+let asmsyntax='armasm'
+let filetype_inc='armasm'
+" ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
+" 设置个人喜欢的快捷键
+" ------------------------------------------------------------------------------
+"
+map Q gq
+
+" 将逻辑行改成屏幕行
+noremap  <C-J>       gj
+noremap  <C-K>       gk
+noremap  <Down>      gj
+noremap  <Up>        gk
+inoremap <Down> <C-O>gj
+inoremap <Up>   <C-O>gk
+
+" 在可视模式下，按下<C-C>键，复制选中的文本到外部剪贴板
+vmap <silent> <C-C>         "+y
+" 在可视模式下，按下<C-X>键，剪切选中的文本到外部剪贴板
+vmap <silent> <C-X>         "+x
+
+" 在普通模式下，按下<C-C>键，粘帖外部剪切板的文本到当前的位置
+nmap <silent> <C-C>         "+gP
+" 在普通模式下，按下<C-C>键，粘帖外部剪切板的文本到当前的位置
+imap <silent> <C-C>         <ESC>"+gPA
+
+" 在插入模式，按下<C-Z>键，表示撤销
+imap <silent> <C-Z>         <ESC>ui
+" 在普通模式，按下<C-Z>键，表示撤销
+"nmap <silent> <C-Z>         u
+
+" 普通模式下排版插入空格
+map <F5>  <Esc>i <Esc>
+" 普通模式下排版插入空行
+map <C-CR> <Esc>o<Esc>k
+
+" Ctrl-N 新开一个tab
+map <C-N> :tabnew<cr>
+
+" 增加快捷键，按Ctrl+A全选
+noremap  <C-A>      ggVG
+inoremap <C-A>      <ESC>ggVG
+
+" 增加快捷键，按Ctrl+F进行括号匹配选择
+noremap  <C-F>      v%
+inoremap <C-F>      <ESC>v%
+
+" 增加快捷键，按Ctrl+S保存
+noremap  <C-S>      :w<cr>
+" 插入模式下，Ctrl+S另存为
+inoremap <C-S>      <C-O>:browse confirm w<cr>
+
+nnoremap <silent> <F11> <Esc>:vimgrep <C-R>=expand("<cword>")<CR> %<CR>:cw 5<CR>
+nnoremap <silent> <F10> <Esc>:grep <C-R>=expand("<cword>")<CR> **/*.[chsS]<CR>:cw 5<CR>
+
+" 关闭窗口Ctrl + q
+" nmap  <C-q>     <Esc><C-w>q
+" 加一个确认关闭
+nmap  <C-q>     <Esc>:confirm close<cr>
+
+" 关闭高亮显示
+nmap     <silent> <F2>      :nohl<cr>
+
+" 设置超级Tab键
+" let g:SuperTabRetainCompletionType=2
+" let g:SuperTabDefaultCompletionType="<C-X><C-O>"
+
+if has("unix")
+    map ,e :tabnew <C-R>=expand("%:h") . "/" <CR>
+else
+    map ,e :tabnew <C-R>=expand("%:p:h") . "\" <CR>
+endif
+
+" 方便窗口跳转
+nmap ww  <c-w><up>
+nmap wh  <c-w><left>
+nmap wl  <c-w><right>
+nmap ws  <c-w><down>
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" 禁止鼠标中键的粘帖功能
+" ------------------------------------------------------------------------------
+"
+noremap  <MiddleMouse> <Nop>
+inoremap <MiddleMouse> <Nop>
+" 恢复鼠标中键的粘帖功能
+"unmap    <MiddleMouse>
+"iunmap   <MiddleMouse>
+" ------------------------------------------------------------------------------
+
+
+
+" ------------------------------------------------------------------------------
+" 对于编辑特殊文件时，设置一些自动命令
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_c()
+	setlocal tabstop=8
+	setlocal softtabstop=8
+	setlocal shiftwidth=8
+	setlocal noexpandtab
+	setlocal textwidth=80
+
+	set cindent
+	set autoindent
+	set smartindent
+	set grepprg=grep\ -nH\ $*
+
+	set completeopt=longest,menu
+
+	" 格式化C文件的设置
+	set comments& comments-=s1:/* comments^=s0:/*
+	set cino=c4,C4
+endfunction
+
+function! s:auto_config_python()
+	setlocal tabstop=8
+	setlocal softtabstop=8
+	setlocal shiftwidth=8
+	setlocal noexpandtab
+	setlocal textwidth=80
+
+	let g:pydoc_cmd='/usr/bin/pydoc2.7'
+	"set omnifunc=pythoncomplete#Complete
+endfunction
+
+function! s:recovery_previous_positon()
+	if line("'\"") > 0 && line ("'\"") <= line("$")
+	     exe "normal g'\""
+	endif
+endfunction
+
+if has("autocmd")
+	"autocmd BufReadPost *.c  call s:auto_config_c()
+	"autocmd BufReadPost *.h  call s:auto_config_c()
+	autocmd FileType c       call s:auto_config_c()
+	autocmd FileType h       call s:auto_config_c()
+
+	autocmd BufReadPost *.py call s:auto_config_python()
+	"autocmd FileType python  call s:auto_config_python()
+
+	autocmd BufReadPost *    call s:recovery_previous_positon()
+
+	autocmd FileType   qf     set nowrap
+	autocmd BufRead    *.txt  set tw=80
+endif
+" ------------------------------------------------------------------------------
+
+
+
+" ------------------------------------------------------------------------------
+" For LaTeX
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_tex()
+	let g:tex_flavor='latex'
+	let g:Tex_CompileRule_dvi = 'latex -src-specials -interaction=nonstopmode $*'
+	let g:Tex_UseEditorSettingInDVIViewer = 1
+	let g:Tex_ViewRule_dvi="xdvi -editor 'gvim --servername latex-suite --remote-silent'"
+endfunction
+" ------------------------------------------------------------------------------
+
+
+
+" ------------------------------------------------------------------------------
+" For ShowFunc
+" ------------------------------------------------------------------------------
+function! s:auto_config_ShowFunc()
+	let g:showfuncctagsbin="/usr/bin/ctags"
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For mediawiki
+" ------------------------------------------------------------------------------
+function! s:auto_config_mediawiki()
+	let g:mediawiki_editor_uri_scheme="http"
+	let g:mediawiki_editor_url="192.168.10.147"
+	let g:mediawiki_editor_path="/mediawiki/"
+	let g:mediawiki_editor_username="jerry"
+	let g:mediawiki_editor_password="xxxxxxxxx"
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For DokuWiki
+" ------------------------------------------------------------------------------
+" looks for DokuWiki headlines in the first 20 lines of the current buffer
+function! s:isDokuWiki()
+  if match(getline(1,20),'^ \=\(=\{2,6}\).\+\1 *$') >= 0
+    set textwidth=0
+    set wrap
+    set linebreak
+    set filetype=dokuwiki
+  endif
+endfun
+
+function! s:auto_config_dokuwiki()
+	" check for dokuwiki syntax
+	autocmd BufWinEnter *.txt call IsDokuWiki()
+
+	" user name with which you want to login at the remote wiki
+	let g:DokuVimKi_USER = 'jerry'
+
+	" password
+	let g:DokuVimKi_PASS = 'xxxxxxxxx'
+
+	" url of the remote wiki (without trailing '/')
+	let g:DokuVimKi_URL  = 'http://192.168.10.147/dokuwiki'
+
+	" width of the index window (optional, defaults to 30)
+	let g:DokuVimKi_INDEX_WINWIDTH = 40
+
+	" set a default summary for :w (optional, defaults to [xmlrpc dokuvimki edit])
+	let g:DokuVimKi_DEFAULT_SUM = 'fancy default summary'
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" 定制 GUI
+" ------------------------------------------------------------------------------
+"
+" 对于ToolBar工具栏上的一些设定
+function! s:quickfixToggle(forced)
+	if exists("g:qfix_win") && a:forced == 0
+		cclose
+		unlet g:qfix_win
+	else
+		copen 5
+		let g:qfix_win = bufnr("$")
+	endif
+endfunction
+
+function! s:auto_config_gui()
+	nmenu  590.100  我的操作.去行末空白	:%s/\s\+$//g<cr>
+	vmenu  590.100  我的操作.去行末空白	:s/\s\+$//g<cr>
+	nmenu  590.101  我的操作.去除空白行	:g/^\s*$/d<cr>
+	vmenu  590.101  我的操作.去除空白行	:g/^\s*$/d<cr>
+	nmenu  590.102  我的操作.tab变空格	:%s/\t/        /g<cr>
+	vmenu  590.102  我的操作.tab变空格	:s/\t/        /g<cr>
+	" 注释代码用的
+	vmenu  590.103  我的操作.行首添加\/\/注释	:s/^/\/\/ /g<cr>
+	vmenu  590.104  我的操作.去除行首\/\/注释	:s/^\/\/ \?//g<cr>
+
+	command -bang -nargs=? QFix call s:quickfixToggle(<bang>0)
+
+	amenu icon=/usr/share/pixmaps/gdm.png ToolBar.quickfix <ESC>:QFix<CR>
+	tmenu ToolBar.quickfix Open/Close the Quickfix window
+endfunction
+
+call s:auto_config_gui()
+" ------------------------------------------------------------------------------
+
+
+language time en_US.UTF8
+" call pathogen#helptags()
