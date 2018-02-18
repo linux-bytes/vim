@@ -468,5 +468,32 @@ call s:auto_config_airline()
 " ------------------------------------------------------------------------------
 
 
+" ------------------------------------------------------------------------------
+" For CtrlP
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_ctrlp()
+	"调用ag进行搜索提升速度，同时不使用缓存文件
+	let g:ctrlp_map = '<c-p>'
+	let g:ctrlp_cmd = 'CtrlP'
+	" 修改该选项为1，设置默认为按文件名搜索（否则为全路径）: >
+	let g:ctrlp_by_filename = 0
+	let g:ctrlp_user_command = {
+				\ 'types': {
+				\ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
+				\ 2: ['.hg', 'hg --cwd %s locate -I .'],
+				\ },
+				\ 'fallback': 'ag %s -l --nocolor -g ""'
+				\ }
+	let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:100,results:100'
+	let g:ctrlp_lazy_update = 500
+
+	" if executable('ag')
+	" 	set grepprg=ag\ --nogroup\ --nocolor
+	" endif
+endfunction
+call s:auto_config_ctrlp()
+" ------------------------------------------------------------------------------
+
 
 " vim:set ts=4 sw=4 filetype=vim:
