@@ -16,7 +16,7 @@ if !exists('g:cscope_tags_cstags_path')
 	let g:cscope_tags_cstags_path=["./", "./cstags/"]
 endif
 
-function! s:find_cscope_file()
+function! s:cscope_find_db()
 	for path in g:cscope_tags_cstags_path
 		let path = path . "cscope.out"
 		if filereadable(path)
@@ -27,7 +27,7 @@ function! s:find_cscope_file()
 	return ""
 endfunction
 
-function! s:find_tags_file()
+function! s:tags_find_db()
 	for path in g:cscope_tags_cstags_path
 		let path = path . "tags"
 		if filereadable(path)
@@ -38,39 +38,7 @@ function! s:find_tags_file()
 	return ""
 endfunction
 
-function! s:cscope_init()
-	if !has("cscope")
-		return 0
-	endif
-
-	let cscope_path = s:find_cscope_file()
-	if cscope_path == ""
-		return 0
-	endif
-
-	set nocsverb
-	execute "cs add " . cscope_path
-	if cscope_path != "./cscope.out" || cscope_path != "cscope.out"
-		set cscoperelative
-	endif
-	set nocscoperelative
-	set cscopequickfix=s-,c-,e-
-	set csto=0
-	set cst
-	set csverb
-endfunction
-
-function! s:tags_init()
-	let tags_path = s:find_tags_file()
-	if tags_path == "" ||  tags_path == "./tags" || tags_path == "tags"
-		let &tags = getcwd() . "/tags"
-		return
-	endif
-	let &tags = tags_path
-	set tagrelative
-endfunction
-
-function! s:cscope_tags_shortkey()
+function! s:cscope_shortkey_setting()
 	" "Symbols":  Find this C symbol
 	noremap		cs			:cs f s <C-R>=expand("<cword>")<CR>
 	" "Defines":  Find this definition
@@ -87,7 +55,43 @@ function! s:cscope_tags_shortkey()
 	noremap		cf			:cs f f <C-R>=expand("<cword>")<CR>
 	" "Includes": Find files #including this file
 	noremap		ci			:cs f i <C-R>=expand("<cword>")<CR>
+endfunction
 
+function! s:cscope_init()
+	if !has("cscope")
+		return 0
+	endif
+
+	let cscope_path = s:cscope_find_db()
+	if cscope_path == ""
+		return 0
+	endif
+
+	set nocsverb
+	execute "cs add " . cscope_path
+	if cscope_path != "./cscope.out" || cscope_path != "cscope.out"
+		set cscoperelative
+	endif
+	set nocscoperelative
+	set cscopequickfix=s-,c-,e-
+	set csto=0
+	set cst
+	set csverb
+
+	call s:cscope_shortkey_setting()
+endfunction
+
+function! s:tags_init()
+	let tags_path = s:tags_find_db()
+	if tags_path == "" ||  tags_path == "./tags" || tags_path == "tags"
+		let &tags = getcwd() . "/tags"
+		return
+	endif
+	let &tags = tags_path
+	set tagrelative
+endfunction
+
+function! s:other_shortkey_setting()
 	" 预览函数的快捷键
 	noremap		<F9>		<C-W>g}
 	noremap		<F12>		<C-W>g]
@@ -100,7 +104,7 @@ function! s:cscope_tags_shortkey()
 endfunction
 
 " This function is setting the path global variables for "gf" command
-function! s:linux_kernel_path_config()
+function! s:path_setting_for_linux()
 	if !exists('g:linux_kernel_includes')
 		let g:linux_kernel_includes=["arch/arm/include/", "arch/arm/mach-imx/include/", "include", "security/selinux/include/"]
 	endif
@@ -115,8 +119,8 @@ endfunction
 " 关于使用taglist插件的一些设置
 " ------------------------------------------------------------------------------
 function! s:taglist_init()
-	nnoremap <silent> <F7> :TlistUpdate<CR>
-	nnoremap <silent> <F8> :TlistToggle<CR>
+	nnoremap	<silent><F7>		:TlistUpdate<CR>
+	nnoremap	<silent><F8>		:TlistToggle<CR>
 	" 防止taglist插件，弄乱屏幕
 	if has('eval')
 		let Tlist_Inc_Winwidth=0
@@ -144,7 +148,7 @@ function! s:tagbar_init()
 	let g:tagbar_left = 1
 	let g:tagbar_width = 30
 	"let g:tagbar_expand = 1
-	nnoremap <silent> <F8> :TagbarToggle<CR>
+	nnoremap	<silent><F8>		:TagbarToggle<CR>
 endfunction
 
 
@@ -156,7 +160,8 @@ command! -nargs=* Tinit call s:tags_init(<f-args>)
 call s:cscope_init()
 call s:tags_init()
 call s:tagbar_init()
-call s:cscope_tags_shortkey()
-call s:linux_kernel_path_config()
+autocmd FileType	c		call s:other_shortkey_setting() | call s:path_setting_for_linux()
+autocmd FileType	h		call s:other_shortkey_setting() | call s:path_setting_for_linux()
+
 
 " vim:set ts=4 sw=4 filetype=vim:
