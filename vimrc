@@ -370,4 +370,24 @@ if has("gui_running")
 endif
 " ------------------------------------------------------------------------------
 
+
+" ------------------------------------------------------------------------------
+" For NERDTree
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_nerdtree()
+	noremap		<F6>				:NERDTreeToggle<cr>
+	" 将 NERDTree 窗口显示在右边
+	let g:NERDTreeWinPos='right'
+	" 在终端启动vim时，共享NERDTree
+	let g:nerdtree_tabs_open_on_console_startup=1
+	" 忽略一下文件的显示
+	let g:NERDTreeIgnore=['\.o', '\.pyc','\~$','\.swp']
+	" 显示书签列表
+	let g:NERDTreeShowBookmarks=1
+endfunction
+call s:auto_config_nerdtree()
+" ------------------------------------------------------------------------------
+
+
 " vim:set ts=4 sw=4 filetype=vim:
