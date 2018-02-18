@@ -390,4 +390,16 @@ call s:auto_config_nerdtree()
 " ------------------------------------------------------------------------------
 
 
+" ------------------------------------------------------------------------------
+" For bufexplorer
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_bufexplorer()
+	" <leader>b opens the buffer list
+	noremap		<leader>b			:BufExplorer<cr>
+endfunction
+call s:auto_config_bufexplorer()
+" ------------------------------------------------------------------------------
+
+
 " vim:set ts=4 sw=4 filetype=vim:
