@@ -430,5 +430,43 @@ call s:auto_config_gitgutter()
 " ------------------------------------------------------------------------------
 
 
+" ------------------------------------------------------------------------------
+" For Airline
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_airline()
+	"安装字体后必须设置
+	let g:airline_powerline_fonts = 1
+
+	if !exists('g:airline_symbols')
+		let g:airline_symbols = {}
+	endif
+	" unicode symbols
+	let g:airline_left_sep		= '▶'
+	let g:airline_left_alt_sep	= '❯'
+	let g:airline_right_sep		= '◀'
+	let g:airline_right_alt_sep	= '❮'
+	let g:airline_symbols.linenr	= '¶'
+	let g:airline_symbols.branch	= '⎇'
+
+	" Setting the theme
+	let g:airline_theme='badwolf'
+
+	" Enable the list of buffers
+	let g:airline#extensions#tabline#enabled = 1
+	" Show just the filename
+	let g:airline#extensions#tabline#fnamemod = ':t'
+	"let g:airline#extensions#tabline#left_sep = ' '
+	"let g:airline#extensions#tabline#left_alt_sep = '|'
+
+	let g:airline#extensions#whitespace#enabled = 0
+	autocmd FileType python  let g:airline#extensions#whitespace#enabled = 1
+	autocmd BufReadPre  *.c  let g:airline#extensions#whitespace#enabled = 0
+	autocmd BufReadPre  *.h  let g:airline#extensions#whitespace#enabled = 0
+endfunction
+call s:auto_config_airline()
+" ------------------------------------------------------------------------------
+
+
 
 " vim:set ts=4 sw=4 filetype=vim:
