@@ -10,8 +10,14 @@ set nocompatible
 set viminfo='20,\"50
 " vim操作中，记录操作的条数
 set history=200
+
 " Enable pathogen
 call pathogen#infect()
+call pathogen#helptags()
+
+" Make the Time is in English
+language time en_US.UTF8
+
 " 开启文件类型判断插件
 filetype plugin on
 filetype indent on
@@ -35,34 +41,25 @@ set ruler
 
 " 如果颜色数大于2，或者使用GUI界面，则打开语法高亮显示和搜索高亮显示
 if &t_Co > 2 || has("gui_running")
-    syntax on
-    set hlsearch
+	syntax on
+	set hlsearch
 endif
 
-" 如果使用GUI，打开鼠标的功能，以及设置字体
-if has("gui")
-    set mouse=a
-    set guitablabel=%t
-
-    set guifont=Inconsolata\ 11
-    "set guifont=Liberation\ Mono\ 10
-    "set guifont=DejaVu\ Sans\ Mono\ 10
-    "set guifont=Monospace\ 10
-    "set guifont=Droid\ Sans\ Mono\ 10
-    "set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
-    "set guifont=Courier\ New\ 11
-    "set guifont=Andale\ Mono\ Normal\ 10
-else
-" 否则只有在插入模式下，鼠标管用
-    set mouse=i
-    " 高亮当前行
-    set  cursorline
-    hi cursorline    guibg=#000000
-    hi CursorColumn  guibg=#333333
+if !has("gui_running")
+	" 否则只有在插入模式下，鼠标管用
+	set mouse=i
+	" 高亮当前行
+	set cursorline
+	hi cursorline    guibg=#000000
+	hi CursorColumn  guibg=#333333
 endif
 
 " 显示行号
 set number
+
+let g:username="Jerry Zhou"
+let g:email="uulinux@gmail.com"
+let mapleader = " "
 
 " ------------------------------------------------------------------------------
 " 编码方面的设置
@@ -75,9 +72,9 @@ set fileencodings=utf-8,gb2312,cp936,gbk,big5,ucs-bom,latin
 
 " 下面设定保存文件时，文件保存格式，windows平台强制保存为GBK，其他保存为Utf-8
 if has("win32")
-    set fileencoding=cp936
+	set fileencoding=cp936
 else
-    set fileencoding=utf-8
+	set fileencoding=utf-8
 endif
 
 set encoding=utf-8
@@ -111,90 +108,87 @@ let filetype_inc='armasm'
 " 设置个人喜欢的快捷键
 " ------------------------------------------------------------------------------
 "
-map Q gq
+function! s:auto_config_shortkey()
+	" 将逻辑行改成屏幕行
+	noremap		<C-J>			gj
+	noremap		<C-K>			gk
+	noremap		<Down>			gj
+	noremap		<Up>			gk
+	inoremap	<Down>			<c-o>gj
+	inoremap	<Up>			<c-o>gk
 
-" 将逻辑行改成屏幕行
-noremap  <C-J>       gj
-noremap  <C-K>       gk
-noremap  <Down>      gj
-noremap  <Up>        gk
-inoremap <Down> <C-O>gj
-inoremap <Up>   <C-O>gk
+	" 方便窗口跳转
+	noremap		<c-Up>			<c-w><up>
+	noremap		<c-Left>		<c-w><left>
+	noremap		<c-Right>		<c-w><right>
+	noremap		<c-Down>		<c-w><down>
 
-" 在可视模式下，按下<C-C>键，复制选中的文本到外部剪贴板
-vmap <silent> <C-C>         "+y
-" 在可视模式下，按下<C-X>键，剪切选中的文本到外部剪贴板
-vmap <silent> <C-X>         "+x
+	inoremap	<c-Up>			<c-o><c-w><up>
+	inoremap	<c-Left>		<c-o><c-w><left>
+	inoremap	<c-Right>		<c-o><c-w><right>
+	inoremap	<c-Down>		<c-o><c-w><down>
 
-" 在普通模式下，按下<C-C>键，粘帖外部剪切板的文本到当前的位置
-nmap <silent> <C-C>         "+gP
-" 在普通模式下，按下<C-C>键，粘帖外部剪切板的文本到当前的位置
-imap <silent> <C-C>         <ESC>"+gPA
+	" 增加快捷键，按Ctrl+S保存
+	noremap		<c-s>			:w<cr>
+	" 插入模式下，Ctrl+S另存为
+	inoremap	<c-s>			<C-O>:browse confirm w<cr>
+	" 普通模式下排版插入空格
+	"
+	noremap		<c-Space>		i <Esc>
+	" 普通模式下排版插入空行
+	noremap		<c-CR>			o<Esc>k
 
-" 在插入模式，按下<C-Z>键，表示撤销
-imap <silent> <C-Z>         <ESC>ui
-" 在普通模式，按下<C-Z>键，表示撤销
-"nmap <silent> <C-Z>         u
+	" Jump to next/previous error
+	noremap		<c-.>			:cn<cr>
+	noremap		<c-,>			:cp<cr>
 
-" 普通模式下排版插入空格
-map <F5>  <Esc>i <Esc>
-" 普通模式下排版插入空行
-map <C-CR> <Esc>o<Esc>k
+	" <leader>t 新开一个tab
+	noremap		<leader>t		:tabnew<cr>
 
-" Ctrl-N 新开一个tab
-map <C-N> :tabnew<cr>
+	" 增加快捷键，按Ctrl+A全选
+	noremap		<leader>a		ggVG
+	" 增加快捷键，按Ctrl+F进行括号匹配选择
+	noremap		<leader>f		v%
 
-" 增加快捷键，按Ctrl+A全选
-noremap  <C-A>      ggVG
-inoremap <C-A>      <ESC>ggVG
+	" 在普通模式下，按下<leader>p键，粘帖外部剪切板的文本到当前的位置
+	" 在可视模式下，按下<leader>y键，复制选中的文本到外部剪贴板
+	" 在可视模式下，按下<leader>k键，复制选中的文本到外部剪贴板
+	noremap		<silent><leader>p	"+gP
+	vnoremap	<silent><leader>y	"+y
+	vnoremap	<silent><leader>k	"+x
 
-" 增加快捷键，按Ctrl+F进行括号匹配选择
-noremap  <C-F>      v%
-inoremap <C-F>      <ESC>v%
+	" 关闭Tabs :    <leader><bs>
+	" noremap	<leader><bs>		<Esc><C-w>q
+	noremap		<leader><bs>		<Esc>:confirm close<cr>
 
-" 增加快捷键，按Ctrl+S保存
-noremap  <C-S>      :w<cr>
-" 插入模式下，Ctrl+S另存为
-inoremap <C-S>      <C-O>:browse confirm w<cr>
+	" <leader>q in command mode closes the current buffer
+	noremap		<leader>q			:bdelete<cr>
 
-nnoremap <silent> <F11> <Esc>:vimgrep <C-R>=expand("<cword>")<CR> %<CR>:cw 5<CR>
-nnoremap <silent> <F10> <Esc>:grep <C-R>=expand("<cword>")<CR> **/*.[chsS]<CR>:cw 5<CR>
+	" g[bB] in command mode switch to the next/prev. buffer
+	noremap		gb					:bnext<cr>
+	noremap		gB					:bprev<cr>
 
-" 关闭窗口Ctrl + q
-" nmap  <C-q>     <Esc><C-w>q
-" 加一个确认关闭
-nmap  <C-q>     <Esc>:confirm close<cr>
+	if has("unix")
+		noremap	<leader>e			:e <C-R>=expand("%:h") . "/" <CR>
+	else
+		noremap	<leader>e			:e <C-R>=expand("%:p:h") . "\" <CR>
+	endif
 
-" 关闭高亮显示
-nmap     <silent> <F2>      :nohl<cr>
+	" 关闭高亮显示
+	nmap		<silent><F2>		:nohl<cr>
 
-" 设置超级Tab键
-" let g:SuperTabRetainCompletionType=2
-" let g:SuperTabDefaultCompletionType="<C-X><C-O>"
+	" 禁止鼠标中键的粘帖功能
+	noremap		<MiddleMouse>		<Nop>
+	inoremap	<MiddleMouse>		<Nop>
 
-if has("unix")
-    map ,e :tabnew <C-R>=expand("%:h") . "/" <CR>
-else
-    map ,e :tabnew <C-R>=expand("%:p:h") . "\" <CR>
-endif
+	" 恢复鼠标中键的粘帖功能
+	"unmap		<MiddleMouse>
+	"iunmap		<MiddleMouse>
 
-" 方便窗口跳转
-nmap ww  <c-w><up>
-nmap wh  <c-w><left>
-nmap wl  <c-w><right>
-nmap ws  <c-w><down>
-" ------------------------------------------------------------------------------
+	noremap		Q					gq
 
-
-" ------------------------------------------------------------------------------
-" 禁止鼠标中键的粘帖功能
-" ------------------------------------------------------------------------------
-"
-noremap  <MiddleMouse> <Nop>
-inoremap <MiddleMouse> <Nop>
-" 恢复鼠标中键的粘帖功能
-"unmap    <MiddleMouse>
-"iunmap   <MiddleMouse>
+endfunction
+call s:auto_config_shortkey()
 " ------------------------------------------------------------------------------
 
 
@@ -235,23 +229,22 @@ endfunction
 
 function! s:recovery_previous_positon()
 	if line("'\"") > 0 && line ("'\"") <= line("$")
-	     exe "normal g'\""
+		exe "normal g'\""
 	endif
 endfunction
 
 if has("autocmd")
-	"autocmd BufReadPost *.c  call s:auto_config_c()
-	"autocmd BufReadPost *.h  call s:auto_config_c()
-	autocmd FileType c       call s:auto_config_c()
-	autocmd FileType h       call s:auto_config_c()
+	"autocmd BufReadPost	*.c			call s:auto_config_c()
+	"autocmd BufReadPost	*.h			call s:auto_config_c()
+	autocmd FileType		c			call s:auto_config_c()
+	autocmd FileType		h			call s:auto_config_c()
 
-	autocmd BufReadPost *.py call s:auto_config_python()
-	"autocmd FileType python  call s:auto_config_python()
+	autocmd FileType		python		call s:auto_config_python()
 
-	autocmd BufReadPost *    call s:recovery_previous_positon()
+	autocmd BufReadPost		*			call s:recovery_previous_positon()
 
-	autocmd FileType   qf     set nowrap
-	autocmd BufRead    *.txt  set tw=80
+	autocmd FileType		qf			set nowrap
+	autocmd BufRead			*.txt		set tw=80
 endif
 " ------------------------------------------------------------------------------
 
@@ -298,12 +291,12 @@ endfunction
 " ------------------------------------------------------------------------------
 " looks for DokuWiki headlines in the first 20 lines of the current buffer
 function! s:isDokuWiki()
-  if match(getline(1,20),'^ \=\(=\{2,6}\).\+\1 *$') >= 0
-    set textwidth=0
-    set wrap
-    set linebreak
-    set filetype=dokuwiki
-  endif
+	if match(getline(1,20),'^ \=\(=\{2,6}\).\+\1 *$') >= 0
+		set textwidth=0
+		set wrap
+		set linebreak
+		set filetype=dokuwiki
+	endif
 endfun
 
 function! s:auto_config_dokuwiki()
@@ -344,12 +337,12 @@ function! s:quickfixToggle(forced)
 endfunction
 
 function! s:auto_config_gui()
-	nmenu  590.100  我的操作.去行末空白	:%s/\s\+$//g<cr>
-	vmenu  590.100  我的操作.去行末空白	:s/\s\+$//g<cr>
-	nmenu  590.101  我的操作.去除空白行	:g/^\s*$/d<cr>
-	vmenu  590.101  我的操作.去除空白行	:g/^\s*$/d<cr>
-	nmenu  590.102  我的操作.tab变空格	:%s/\t/        /g<cr>
-	vmenu  590.102  我的操作.tab变空格	:s/\t/        /g<cr>
+	nmenu  590.100  我的操作.去行末空白			:%s/\s\+$//g<cr>
+	vmenu  590.100  我的操作.去行末空白			:s/\s\+$//g<cr>
+	nmenu  590.101  我的操作.去除空白行			:g/^\s*$/d<cr>
+	vmenu  590.101  我的操作.去除空白行			:g/^\s*$/d<cr>
+	nmenu  590.102  我的操作.tab变空格			:%s/\t/        /g<cr>
+	vmenu  590.102  我的操作.tab变空格			:s/\t/        /g<cr>
 	" 注释代码用的
 	vmenu  590.103  我的操作.行首添加\/\/注释	:s/^/\/\/ /g<cr>
 	vmenu  590.104  我的操作.去除行首\/\/注释	:s/^\/\/ \?//g<cr>
@@ -360,9 +353,21 @@ function! s:auto_config_gui()
 	tmenu ToolBar.quickfix Open/Close the Quickfix window
 endfunction
 
-call s:auto_config_gui()
+if has("gui_running")
+	set mouse=a
+	set guitablabel=%t
+
+	set guifont=Inconsolata\ 11
+	"set guifont=Liberation\ Mono\ 10
+	"set guifont=DejaVu\ Sans\ Mono\ 10
+	"set guifont=Monospace\ 10
+	"set guifont=Droid\ Sans\ Mono\ 10
+	"set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
+	"set guifont=Courier\ New\ 11
+	"set guifont=Andale\ Mono\ Normal\ 10
+
+	call s:auto_config_gui()
+endif
 " ------------------------------------------------------------------------------
 
-
-language time en_US.UTF8
-" call pathogen#helptags()
+" vim:set ts=4 sw=4 filetype=vim:

@@ -13,7 +13,7 @@
 " http://cscope.sourceforge.net/
 "
 if !exists('g:cscope_tags_cstags_path')
-  let g:cscope_tags_cstags_path=["./", "./cstags/"]
+	let g:cscope_tags_cstags_path=["./", "./cstags/"]
 endif
 
 function! s:find_cscope_file()
@@ -70,74 +70,46 @@ function! s:tags_init()
 	set tagrelative
 endfunction
 
-command! -nargs=* Cinit call s:cscope_init(<f-args>)
-command! -nargs=* Tinit call s:tags_init(<f-args>)
+function! s:cscope_tags_shortkey()
+	" "Symbols":  Find this C symbol
+	noremap		cs			:cs f s <C-R>=expand("<cword>")<CR>
+	" "Defines":  Find this definition
+	noremap		cg			:cs f g <C-R>=expand("<cword>")<CR>
+	" "Calls":    Find functions called by this function
+	noremap		cd			:cs f d <C-R>=expand("<cword>")<CR>
+	" "Globals":  Find functions calling this function
+	noremap		cc			:cs f c <C-R>=expand("<cword>")<CR>
+	" "Texts":    Find this text string
+	noremap		ct			:cs f t <C-R>=expand("<cword>")<CR>
+	" "Egrep":    Find this egrep pattern
+	noremap		ce			:cs f e <C-R>=expand("<cword>")<CR>
+	" "File":     Find this file
+	noremap		cf			:cs f f <C-R>=expand("<cword>")<CR>
+	" "Includes": Find files #including this file
+	noremap		ci			:cs f i <C-R>=expand("<cword>")<CR>
 
-"   function! s:simple_cscope(...)
-"   endfunction
-"
-"   command! -nargs=* f call s:simple_cscope(<f-args>)
+	" 预览函数的快捷键
+	noremap		<F9>		<C-W>g}
+	noremap		<F12>		<C-W>g]
 
-" "Symbols":  Find this C symbol
-nmap cs :cs f s <C-R>=expand("<cword>")<CR>
-" "Defines":  Find this definition
-nmap cg :cs f g <C-R>=expand("<cword>")<CR>
-" "Calls":    Find functions called by this function
-nmap cd :cs f d <C-R>=expand("<cword>")<CR>
-" "Globals":  Find functions calling this function
-nmap cc :cs f c <C-R>=expand("<cword>")<CR>
-" "Texts":    Find this text string
-nmap ct :cs f t <C-R>=expand("<cword>")<CR>
-" "Egrep":    Find this egrep pattern
-nmap ce :cs f e <C-R>=expand("<cword>")<CR>
-" "File":     Find this file
-nmap cf :cs f f <C-R>=expand("<cword>")<CR>
-" "Includes": Find files #including this file
-nmap ci :cs f i <C-R>=expand("<cword>")<CR>
+	" 为了修正preview窗口的绝对路径的问题
+	autocmd Bufenter *.[ch] exe "cd ."
 
-call s:cscope_init()
-call s:tags_init()
-nmap <c-.> <esc>:cn<CR>
-nmap <c-,> <esc>:cp<CR>
+	" 普通模式下面在关键字上按;查看函数原型
+	noremap		<silent>;	:ptag <C-R>=expand("<cword>")<CR><CR>
+endfunction
 
-" 为了阅读代码跳转方便，增加两个快捷方式
-" noremap  <C-Right>   <C-]>
-" noremap  <C-Left>    <C-o>
-" inoremap <C-Right>   <C-O><C-]>
-" inoremap <C-Left>    <C-O><C-o>
-" 按下<C-Right>键，跳转到其定义处
-nmap <silent> <C-Right>      <C-]>
-imap <silent> <C-Right> <C-O><C-]>
-" 按下<C-Left>键，返回刚才跳出的地方
-nmap <silent> <C-Left>      <C-O>
-imap <silent> <C-Left> <C-O><C-O>
+" This function is setting the path global variables for "gf" command
+function! s:linux_kernel_path_config()
+	if !exists('g:linux_kernel_includes')
+		let g:linux_kernel_includes=["arch/arm/include/", "arch/arm/mach-imx/include/", "include", "security/selinux/include/"]
+	endif
 
-" 预览函数的快捷键
-nmap <F9>   <C-W>g}
-nmap <F12>  <C-W>g]
-" 为了修正preview窗口的绝对路径的问题
-autocmd Bufenter *.[ch] exe "cd ."
-
-" 针对内核，有时需要gf一下文件，设置文件的路径
-" set path= .,./include,/usr/include,/usr/src/linux/include,,
-" let &path = &path . "," . substitute($INCL, ';', ',', 'g')
-" let &path = &path . "," . getcwd()."/arch/arm/plat-s3c/include". ","
-set path=.
-set path+=arch/arm/include/
-set path+=arch/arm/mach-mmp/include
-set path+=arch/arm/mach-pxa/include
-set path+=include/
-"let &path = &path . "," . getcwd()."/arch/arm/include/asm/". ","
-"let &path = &path . "," . getcwd()."/arch/arm/include/generated/asm/". ","
-"let &path = &path . "," . getcwd()."/arch/arm/mach-mmp/include". ","
-"let &path = &path . "," . getcwd()."/arch/arm/mach-pxa/include". ","
-"let &path = &path . "," . getcwd()."/arch/arm/include". ","
-"let &path = &path . "," . getcwd()."/include". ","
-"let &path = &path . "," . getcwd()."/include/asm-generic/". ","
-"set path+=/usr/src/linux-2.6.26-gentoo-r4/include
-
-" 普通模式下面在关键字上按;查看函数原型
-nmap <silent> ;      :ptag <C-R>=expand("<cword>")<CR><CR>
+	set path=.
+	for item in g:linux_kernel_includes
+		execute "set path+=" . item
+	endfor
+endfunction
 
 " ------------------------------------------------------------------------------
 " 关于使用taglist插件的一些设置
@@ -147,7 +119,7 @@ function! s:taglist_init()
 	nnoremap <silent> <F8> :TlistToggle<CR>
 	" 防止taglist插件，弄乱屏幕
 	if has('eval')
-	     let Tlist_Inc_Winwidth=0
+		let Tlist_Inc_Winwidth=0
 	endif
 
 	let Tlist_Show_One_File = 1            "不同时显示多个文件的tag，只显示当前文件的
@@ -175,5 +147,16 @@ function! s:tagbar_init()
 	nnoremap <silent> <F8> :TagbarToggle<CR>
 endfunction
 
+
+
+command! -nargs=* Cinit call s:cscope_init(<f-args>)
+command! -nargs=* Tinit call s:tags_init(<f-args>)
+
+
+call s:cscope_init()
+call s:tags_init()
 call s:tagbar_init()
+call s:cscope_tags_shortkey()
+call s:linux_kernel_path_config()
+
 " vim:set ts=4 sw=4 filetype=vim:
