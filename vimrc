@@ -402,4 +402,33 @@ call s:auto_config_bufexplorer()
 " ------------------------------------------------------------------------------
 
 
+
+" ------------------------------------------------------------------------------
+" For gitgutter
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_gitgutter()
+	" To disable all key mappings:
+	let g:gitgutter_map_keys = 0
+
+	" Use a custom grep command
+	let g:gitgutter_grep = 'grep'
+
+	" To turn off vim-gitgutter by default
+	" let g:gitgutter_enabled = 0
+
+	" To turn off signs by default
+	" let g:gitgutter_signs = 0
+
+	" To turn on line highlighting by default
+	let g:gitgutter_highlight_lines = 1
+
+	" To turn off asynchronous updates
+	let g:gitgutter_async = 0
+endfunction
+call s:auto_config_gitgutter()
+" ------------------------------------------------------------------------------
+
+
+
 " vim:set ts=4 sw=4 filetype=vim:
