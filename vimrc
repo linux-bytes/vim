@@ -496,4 +496,20 @@ call s:auto_config_ctrlp()
 " ------------------------------------------------------------------------------
 
 
+" ------------------------------------------------------------------------------
+" For ultiSnips
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_ultisnips()
+	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+	let g:UltiSnipsExpandTrigger       = "<c-tab>"
+	let g:UltiSnipsJumpForwardTrigger  = "<c-Right>"
+	let g:UltiSnipsJumpBackwardTrigger = "<c-Left>"
+
+	" If you want :UltiSnipsEdit to split your window.
+	let g:UltiSnipsEditSplit           = "vertical"
+endfunction
+call s:auto_config_ultisnips()
+" ------------------------------------------------------------------------------
+
 " vim:set ts=4 sw=4 filetype=vim:
