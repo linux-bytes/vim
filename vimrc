@@ -294,6 +294,43 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For Airline
+" ------------------------------------------------------------------------------
+"
+function! s:configure_airline()
+	" set it after fonts has been installed.
+	let g:airline_powerline_fonts		=1
+
+	if !exists('g:airline_symbols')
+		let g:airline_symbols			={}
+	endif
+	" unicode symbols
+	let g:airline_left_sep				='▶'
+	let g:airline_left_alt_sep			='❯'
+	let g:airline_right_sep				='◀'
+	let g:airline_right_alt_sep			='❮'
+	let g:airline_symbols.linenr		='¶'
+	let g:airline_symbols.branch		='⎇'
+
+	" Setting the theme
+	let g:airline_theme					='badwolf'
+
+	" Enable the list of buffers
+	let g:airline#extensions#tabline#enabled		=1
+	" Show just the filename
+	let g:airline#extensions#tabline#fnamemod		=':t'
+	"let g:airline#extensions#tabline#left_sep		=' '
+	"let g:airline#extensions#tabline#left_alt_sep	='|'
+
+	let g:airline#extensions#whitespace#enabled		=0
+	autocmd FileType python  let g:airline#extensions#whitespace#enabled=1
+	autocmd BufReadPre  *.c  let g:airline#extensions#whitespace#enabled=0
+	autocmd BufReadPre  *.h  let g:airline#extensions#whitespace#enabled=0
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
@@ -318,12 +355,17 @@ function! s:script_manager_setting()
 
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
+
+	Plug 'Lokaltog/vim-powerline'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	call s:configure_bufexplorer()
 	call s:configure_nredtree()
 	call s:configure_ultisnips()
+	call s:configure_airline()
 endfunction
 " ------------------------------------------------------------------------------
 
