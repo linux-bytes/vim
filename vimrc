@@ -87,7 +87,7 @@ endfunction
 "
 function! s:shortkey_setting()
 	" make spece key as vim leader key
-	let g:mapleader = " "
+	let g:mapleader =" "
 
 	" Change logic line to screen line
 	noremap		<C-J>			gj
@@ -180,18 +180,18 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:config_c_h()
-	setlocal tabstop     = 8
-	setlocal softtabstop = 8
-	setlocal shiftwidth  = 8
-	setlocal textwidth   = 80
+	setlocal tabstop     =8
+	setlocal softtabstop =8
+	setlocal shiftwidth  =8
+	setlocal textwidth   =80
 	setlocal noexpandtab
 
 	setlocal cindent
 	setlocal autoindent
 	setlocal smartindent
-	setlocal grepprg     = grep\ -nH\ $*
+	setlocal grepprg     =grep\ -nH\ $*
 
-	setlocal completeopt = longest,menu
+	setlocal completeopt =longest,menu
 
 	" Some C formatting settings
 	setlocal comments& comments-=s1:/* comments^=s0:/*
@@ -205,13 +205,13 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:config_python()
-	setlocal tabstop     = 8
-	setlocal softtabstop = 8
-	setlocal shiftwidth  = 8
-	setlocal textwidth   = 80
+	setlocal tabstop     =8
+	setlocal softtabstop =8
+	setlocal shiftwidth  =8
+	setlocal textwidth   =80
 	setlocal noexpandtab
 
-	let g:pydoc_cmd      = '/usr/bin/pydoc2.7'
+	let g:pydoc_cmd      ='/usr/bin/pydoc2.7'
 endfunction
 " ------------------------------------------------------------------------------
 
@@ -267,12 +267,28 @@ endfunction
 function! s:configure_nredtree()
 	noremap		<F6>				:NERDTreeToggle<cr>
 	" Putting NERDTree window right
-	let g:NERDTreeWinPos='right'
-	let g:nerdtree_tabs_open_on_console_startup=1
+	let g:NERDTreeWinPos                        ='right'
+	let g:nerdtree_tabs_open_on_console_startup =1
 	" Ignore these files
-	let g:NERDTreeIgnore=['\.o', '\.pyc','\~$','\.swp']
+	let g:NERDTreeIgnore                        =['\.o', '\.pyc','\~$','\.swp']
 	" Show the bookmarks
-	let g:NERDTreeShowBookmarks=1
+	let g:NERDTreeShowBookmarks                 =1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For ultiSnips
+" ------------------------------------------------------------------------------
+"
+function! s:configure_ultisnips()
+	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+	let g:UltiSnipsExpandTrigger       ="<c-tab>"
+	let g:UltiSnipsJumpForwardTrigger  ="<c-Right>"
+	let g:UltiSnipsJumpBackwardTrigger ="<c-Left>"
+
+	" If you want :UltiSnipsEdit to split your window.
+	let g:UltiSnipsEditSplit           ="vertical"
 endfunction
 " ------------------------------------------------------------------------------
 
@@ -299,11 +315,15 @@ function! s:script_manager_setting()
 
 	Plug 'jlanzarotta/bufexplorer'
 	Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	call s:configure_bufexplorer()
 	call s:configure_nredtree()
+	call s:configure_ultisnips()
 endfunction
 " ------------------------------------------------------------------------------
 
