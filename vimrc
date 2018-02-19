@@ -163,7 +163,7 @@ function! s:shortkey_setting()
 
 	" Recovery the pasting function of middle mouse key
 	" unmap		<MiddleMouse>
-	" iunmap		<MiddleMouse>
+	" iunmap	<MiddleMouse>
 
 	" Format a paragraph of text
 	noremap		Q					gq
@@ -172,7 +172,61 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
-" For the vim-plug
+" Some settings on C file and H file
+" ------------------------------------------------------------------------------
+"
+function! s:config_c_h()
+	setlocal tabstop     = 8
+	setlocal softtabstop = 8
+	setlocal shiftwidth  = 8
+	setlocal textwidth   = 80
+	setlocal noexpandtab
+
+	setlocal cindent
+	setlocal autoindent
+	setlocal smartindent
+	setlocal grepprg     = grep\ -nH\ $*
+
+	setlocal completeopt = longest,menu
+
+	" Some C formatting settings
+	setlocal comments& comments-=s1:/* comments^=s0:/*
+	setlocal cino=c4,C4
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" Some settings on python file
+" ------------------------------------------------------------------------------
+"
+function! s:config_python()
+	setlocal tabstop     = 8
+	setlocal softtabstop = 8
+	setlocal shiftwidth  = 8
+	setlocal textwidth   = 80
+	setlocal noexpandtab
+
+	let g:pydoc_cmd      = '/usr/bin/pydoc2.7'
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" Some settings on all files
+" ------------------------------------------------------------------------------
+"
+function! s:config_all()
+	" Putting the cursor at the same position before last exit.
+	if line("'\"") > 0 && line ("'\"") <= line("$")
+		exe "normal g'\""
+	endif
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
 function! s:script_manager_setting()
@@ -196,6 +250,20 @@ call s:script_manager_setting()
 call s:global_setting()
 call s:file_setting()
 call s:shortkey_setting()
+
+if has("autocmd")
+	"autocmd BufReadPost	*.c			call s:config_c_h()
+	"autocmd BufReadPost	*.h			call s:config_c_h()
+	autocmd FileType		c			call s:config_c_h()
+	autocmd FileType		h			call s:config_c_h()
+
+	autocmd FileType		python		call s:config_python()
+
+	autocmd BufReadPost		*			call s:config_all()
+
+	autocmd FileType		qf			set nowrap
+	autocmd BufRead			*.txt		set tw=80
+endif
 " ------------------------------------------------------------------------------
 
 " vim:set ts=4 sw=4 filetype=vim:
