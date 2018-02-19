@@ -357,6 +357,32 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For CtrlP
+" ------------------------------------------------------------------------------
+"
+function! s:configure_ctrlp()
+	let g:ctrlp_map				='<c-p>'
+	let g:ctrlp_cmd				='CtrlP'
+	" 1: search file by file name
+	" 0: search file by full path
+	let g:ctrlp_by_filename		=0
+	let g:ctrlp_user_command	={
+				\ 'types': {
+				\ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
+				\ 2: ['.hg', 'hg --cwd %s locate -I .'],
+				\ },
+				\ 'fallback': 'ag %s -l --nocolor -g ""'
+				\ }
+	let g:ctrlp_match_window	='bottom,order:btt,min:1,max:100,results:100'
+	let g:ctrlp_lazy_update		=500
+
+	" if executable('ag')
+	" 	set grepprg=ag\ --nogroup\ --nocolor
+	" endif
+endfunction
+" ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
@@ -387,6 +413,8 @@ function! s:script_manager_setting()
 	Plug 'vim-airline/vim-airline-themes'
 
 	Plug 'airblade/vim-gitgutter'
+
+	Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'}
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
@@ -395,6 +423,7 @@ function! s:script_manager_setting()
 	call s:configure_ultisnips()
 	call s:configure_airline()
 	call s:configure_gitgutter()
+	call s:configure_ctrlp()
 endfunction
 " ------------------------------------------------------------------------------
 
