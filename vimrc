@@ -87,7 +87,7 @@ endfunction
 "
 function! s:shortkey_setting()
 	" make spece key as vim leader key
-	let mapleader = " "
+	let g:mapleader = " "
 
 	" Change logic line to screen line
 	noremap		<C-J>			gj
@@ -250,6 +250,17 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For bufexplorer
+" ------------------------------------------------------------------------------
+"
+function! s:configure_bufexplorer()
+	" <leader>b opens the buffer list
+	noremap		<leader>b			:BufExplorer<cr>
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
@@ -269,8 +280,11 @@ function! s:script_manager_setting()
 	Plug 'aperezdc/vim-template'
 	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
 
+	Plug 'jlanzarotta/bufexplorer'
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
+
+	call s:configure_bufexplorer()
 endfunction
 " ------------------------------------------------------------------------------
 
