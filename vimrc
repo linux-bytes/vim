@@ -260,6 +260,15 @@ function! s:script_manager_setting()
 	" Declare the list of plugins.
 	Plug 'junegunn/vim-plug', {'do':'cp -f plug.vim ../../autoload/'}
 
+	" Plug 'vim-scripts/DrawIt'
+	" Plug 'hari-rangarajan/CCTree'
+	" Plug 'vim-scripts/vim-mediawiki-editor'
+
+	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+	Plug 'andreyugolnik/manpageview', {'for': ['c', 'h', 'cpp']}
+	Plug 'aperezdc/vim-template'
+	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 endfunction
