@@ -261,6 +261,23 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For NREDTree
+" ------------------------------------------------------------------------------
+"
+function! s:configure_nredtree()
+	noremap		<F6>				:NERDTreeToggle<cr>
+	" Putting NERDTree window right
+	let g:NERDTreeWinPos='right'
+	let g:nerdtree_tabs_open_on_console_startup=1
+	" Ignore these files
+	let g:NERDTreeIgnore=['\.o', '\.pyc','\~$','\.swp']
+	" Show the bookmarks
+	let g:NERDTreeShowBookmarks=1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
@@ -281,10 +298,12 @@ function! s:script_manager_setting()
 	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
 
 	Plug 'jlanzarotta/bufexplorer'
+	Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	call s:configure_bufexplorer()
+	call s:configure_nredtree()
 endfunction
 " ------------------------------------------------------------------------------
 
