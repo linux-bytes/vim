@@ -382,6 +382,24 @@ function! s:configure_ctrlp()
 endfunction
 " ------------------------------------------------------------------------------
 
+
+" ------------------------------------------------------------------------------
+" For YouCompleteMe
+" ------------------------------------------------------------------------------
+"
+function! Build_youcompleteme(info)
+	" info is a dictionary with 3 fields
+	" - name:   name of the plugin
+	" - status: 'installed', 'updated', or 'unchanged'
+	" - force:  set on PlugInstall! or PlugUpdate!
+	if a:info.status == 'installed' || a:info.force
+		!./install.py --clang-completer
+		!./install.py --java-completer
+	endif
+endfunction
+" ------------------------------------------------------------------------------
+
+
 " ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
@@ -415,6 +433,8 @@ function! s:script_manager_setting()
 	Plug 'airblade/vim-gitgutter'
 
 	Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'}
+
+	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('Build_youcompleteme') }
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
