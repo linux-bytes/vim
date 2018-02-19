@@ -141,8 +141,12 @@ function! s:shortkey_setting()
 	" noremap	<leader><bs>		<Esc><C-w>q
 	noremap		<leader><bs>		<Esc>:confirm close<cr>
 
-	" <leader>q in command mode closes the current buffer
-	noremap		<leader>q			:bdelete<cr>
+	" <leader>q 	Detele current buffer in normal mode
+	noremap		<leader>d			:bdelete<cr>
+	" <leader>o		close other windows
+	noremap		<leader>o			<c-w>o
+	" <leader>o		close current windows
+	noremap		<leader>c			<c-w>c
 
 	" g[bB] in command mode switch to the next/prev. buffer
 	noremap		gb					:bnext<cr>
@@ -226,6 +230,26 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" Custom GUI
+" ------------------------------------------------------------------------------
+"
+function! s:auto_config_gui()
+	set mouse		=a
+	set guitablabel	=%t
+
+	set guifont=Inconsolata\ 11
+	"set guifont=Liberation\ Mono\ 10
+	"set guifont=DejaVu\ Sans\ Mono\ 10
+	"set guifont=Monospace\ 10
+	"set guifont=Droid\ Sans\ Mono\ 10
+	"set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
+	"set guifont=Courier\ New\ 11
+	"set guifont=Andale\ Mono\ Normal\ 10
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the Script Manager: vim-plug
 " ------------------------------------------------------------------------------
 "
@@ -263,6 +287,10 @@ if has("autocmd")
 
 	autocmd FileType		qf			set nowrap
 	autocmd BufRead			*.txt		set tw=80
+endif
+
+if has("gui_running")
+	call s:auto_config_gui()
 endif
 " ------------------------------------------------------------------------------
 
