@@ -172,6 +172,20 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For Tagbar
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_tagbar()
+	nnoremap	<silent><F8>		:TagbarToggle<CR>
+
+	let g:tagbar_left	=1
+	let g:tagbar_width	=30
+	"let g:tagbar_expand	=1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -199,6 +213,7 @@ function! s:configure_plugins_manager()
 
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
 
+	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
@@ -209,6 +224,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_airline()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_ctrlp()
+	call s:configure_plugins_tagbar()
 endfunction
 " ------------------------------------------------------------------------------
 
