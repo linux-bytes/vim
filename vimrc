@@ -214,6 +214,13 @@ function! s:configure_plugins_manager()
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
 
 	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
+
+	Plug 'andreyugolnik/manpageview', {'for': ['c', 'h', 'cpp']}
+
+	Plug 'aperezdc/vim-template'
+
+	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
