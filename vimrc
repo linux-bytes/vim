@@ -155,6 +155,23 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For YouCompleteMe
+" ------------------------------------------------------------------------------
+"
+function! BuildYouCompleteMe(info)
+	" info is a dictionary with 3 fields
+	" - name:   name of the plugin
+	" - status: 'installed', 'updated', or 'unchanged'
+	" - force:  set on PlugInstall! or PlugUpdate!
+	if a:info.status == 'installed' || a:info.force
+		!./install.py --clang-completer
+		!./install.py --java-completer
+	endif
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -179,6 +196,8 @@ function! s:configure_plugins_manager()
 	Plug 'ctrlpvim/ctrlp.vim'
 	Plug 'FelikZ/ctrlp-py-matcher'
 	Plug 'tacahiroy/ctrlp-funky'
+
+	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
 
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
