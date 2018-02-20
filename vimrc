@@ -3,6 +3,24 @@
 " 2018:02/20
 
 " ------------------------------------------------------------------------------
+" For the vim scripts manager --- vim plug
+" ------------------------------------------------------------------------------
+
+function! s:configure_plugins_manager()
+	" Plugins will be downloaded under the specified directory.
+	call plug#begin('~/.vim/plugged')
+
+	" Declare the list of plugins.
+
+	" List ends here. Plugins become visible to Vim after this call.
+	call plug#end()
+
+	" Make a configure of some plugins.
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " Some global and basic settings
 " ------------------------------------------------------------------------------
 "
@@ -241,6 +259,7 @@ endfunction
 " The main process of VIM initialization
 " ------------------------------------------------------------------------------
 "
+call s:configure_plugins_manager()
 call s:configure_base_settings()
 call s:configure_file_encoding()
 call s:configure_global_shortkey()
