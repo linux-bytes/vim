@@ -3,6 +3,17 @@
 " 2018:02/20
 
 " ------------------------------------------------------------------------------
+" For bufexplorer
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_bufexplorer()
+	" <leader>b opens the buffer list
+	noremap		<leader>b			:BufExplorer<cr>
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -11,11 +22,13 @@ function! s:configure_plugins_manager()
 	call plug#begin('~/.vim/plugged')
 
 	" Declare the list of plugins.
+	Plug 'jlanzarotta/bufexplorer'
 
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	" Make a configure of some plugins.
+	call s:configure_plugins_bufexplorer()
 endfunction
 " ------------------------------------------------------------------------------
 
