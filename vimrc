@@ -31,6 +31,22 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For ultiSnips
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_ultisnips()
+	" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+	let g:UltiSnipsExpandTrigger       ="<c-tab>"
+	let g:UltiSnipsJumpForwardTrigger  ="<c-Right>"
+	let g:UltiSnipsJumpBackwardTrigger ="<c-Left>"
+
+	" If you want :UltiSnipsEdit to split your window.
+	let g:UltiSnipsEditSplit           ="vertical"
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -43,12 +59,16 @@ function! s:configure_plugins_manager()
 
 	Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	" Make a configure of some plugins.
 	call s:configure_plugins_bufexplorer()
 	call s:configure_plugins_nredtree()
+	call s:configure_plugins_ultisnips()
 endfunction
 " ------------------------------------------------------------------------------
 
