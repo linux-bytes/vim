@@ -366,6 +366,14 @@ function! s:configure_ctrlp()
 	" 1: search file by file name
 	" 0: search file by full path
 	let g:ctrlp_by_filename		=0
+	" Set no file limit, we are building a big project
+	let g:ctrlp_max_files = 0
+
+	" If ag is available use it as filename list generator instead of 'find'
+	" if executable("ag")
+	"     set grepprg=ag\ --nogroup\ --nocolor
+	"     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+	" endif
 	let g:ctrlp_user_command	={
 				\ 'types': {
 				\ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
@@ -373,12 +381,29 @@ function! s:configure_ctrlp()
 				\ },
 				\ 'fallback': 'ag %s -l --nocolor -g ""'
 				\ }
-	let g:ctrlp_match_window	='bottom,order:btt,min:1,max:100,results:100'
-	let g:ctrlp_lazy_update		=500
+	let g:ctrlp_match_window	='bottom,order:btt,min:1,max:100,results:1000'
 
-	" if executable('ag')
-	" 	set grepprg=ag\ --nogroup\ --nocolor
-	" endif
+	" PyMatcher for CtrlP
+	let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+	" Set delay to prevent extra search
+	let g:ctrlp_lazy_update = 350
+
+	" Do not clear filenames cache, to improve CtrlP startup
+	" You can manualy clear it by <F5>
+	let g:ctrlp_clear_cache_on_exit = 0
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" For CtrlPFunky
+" ------------------------------------------------------------------------------
+"
+function! s:configure_ctrlpfunky()
+	nnoremap	<c-\>			:CtrlPFunky<Cr>
+	" narrow the list down with a word under cursor
+	nnoremap	<c-?>			:execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 endfunction
 " ------------------------------------------------------------------------------
 
@@ -432,7 +457,9 @@ function! s:script_manager_setting()
 
 	Plug 'airblade/vim-gitgutter'
 
-	Plug 'ctrlpvim/ctrlp.vim', {'on': 'CtrlP'}
+	Plug 'ctrlpvim/ctrlp.vim'
+	Plug 'FelikZ/ctrlp-py-matcher'
+	Plug 'tacahiroy/ctrlp-funky'
 
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('Build_youcompleteme') }
 	" List ends here. Plugins become visible to Vim after this call.
@@ -444,6 +471,7 @@ function! s:script_manager_setting()
 	call s:configure_airline()
 	call s:configure_gitgutter()
 	call s:configure_ctrlp()
+	call s:configure_ctrlpfunky()
 endfunction
 " ------------------------------------------------------------------------------
 
