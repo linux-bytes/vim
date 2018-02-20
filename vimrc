@@ -84,6 +84,32 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For gitgutter
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_gitgutter()
+	" To disable all key mappings:
+	let g:gitgutter_map_keys		=0
+
+	" Use a custom grep command
+	let g:gitgutter_grep			='grep'
+
+	" To turn off vim-gitgutter by default
+	" let g:gitgutter_enabled		=0
+
+	" To turn off signs by default
+	" let g:gitgutter_signs			=0
+
+	" To turn on line highlighting by default
+	let g:gitgutter_highlight_lines	=1
+
+	" To turn off asynchronous updates
+	let g:gitgutter_async			=0
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -103,6 +129,8 @@ function! s:configure_plugins_manager()
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 
+	Plug 'airblade/vim-gitgutter'
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
@@ -111,6 +139,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_nredtree()
 	call s:configure_plugins_ultisnips()
 	call s:configure_plugins_airline()
+	call s:configure_plugins_gitgutter()
 endfunction
 " ------------------------------------------------------------------------------
 
