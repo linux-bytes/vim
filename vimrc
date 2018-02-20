@@ -14,6 +14,23 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For NREDTree
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_nredtree()
+	noremap		<F6>				:NERDTreeToggle<cr>
+	" Putting NERDTree window right
+	let g:NERDTreeWinPos                        ='right'
+	let g:nerdtree_tabs_open_on_console_startup =1
+	" Ignore these files
+	let g:NERDTreeIgnore                        =['\.o', '\.pyc','\~$','\.swp']
+	" Show the bookmarks
+	let g:NERDTreeShowBookmarks                 =1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -24,11 +41,14 @@ function! s:configure_plugins_manager()
 	" Declare the list of plugins.
 	Plug 'jlanzarotta/bufexplorer'
 
+	Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
 	" Make a configure of some plugins.
 	call s:configure_plugins_bufexplorer()
+	call s:configure_plugins_nredtree()
 endfunction
 " ------------------------------------------------------------------------------
 
