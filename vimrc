@@ -408,6 +408,18 @@ endfunction
 " Some settings on C file and H file
 " ------------------------------------------------------------------------------
 "
+" This function is setting the path global variables for "gf" command
+function! s:configure_linux_kernel_path()
+	if !exists('g:linux_kernel_includes')
+		let g:linux_kernel_includes=["arch/arm/include/", "arch/arm/mach-imx/include/", "include", "security/selinux/include/"]
+	endif
+
+	set path=.
+	for item in g:linux_kernel_includes
+		execute "set path+=" . item
+	endfor
+endfunction
+
 function! s:configure_ft_c_h()
 	setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=80 noexpandtab
 
@@ -421,6 +433,11 @@ function! s:configure_ft_c_h()
 	" Some C formatting settings
 	setlocal comments& comments-=s1:/* comments^=s0:/*
 	setlocal cino=c4,C4
+
+	call s:configure_linux_kernel_path()
+
+	" Review a function in a preview window.
+	noremap		<silent>;			:ptag <C-R>=expand("<cword>")<CR><CR>
 endfunction
 " ------------------------------------------------------------------------------
 
