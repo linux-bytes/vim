@@ -393,6 +393,8 @@ function! s:configure_global_shortkey()
 	" g[bB] in command mode switch to the next/prev. buffer
 	noremap		gb					:bnext<cr>
 	noremap		gB					:bprev<cr>
+	noremap		<c-pagedown>		:bnext<cr>
+	noremap		<c-pageup>			:bprev<cr>
 
 	if has("unix")
 		noremap	<leader>e			:e <C-R>=expand("%:h") . "/" <CR>
