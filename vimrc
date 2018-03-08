@@ -468,6 +468,16 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" Some settings on Java file
+" ------------------------------------------------------------------------------
+"
+function! s:configure_ft_java()
+	setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=80 expandtab
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " Some settings on all files
 " ------------------------------------------------------------------------------
 "
@@ -515,6 +525,7 @@ if has("autocmd")
 	autocmd FileType		h			call s:configure_ft_c_h()
 
 	autocmd FileType		python		call s:configure_ft_py()
+	autocmd FileType		java		call s:configure_ft_java()
 
 	autocmd BufReadPost		*			call s:configure_ft_all()
 
