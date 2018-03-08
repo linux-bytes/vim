@@ -186,6 +186,16 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For Vim Signature
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_signature()
+	noremap		<silent><F3>		]`
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -221,6 +231,8 @@ function! s:configure_plugins_manager()
 
 	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
 
+	Plug 'kshenoy/vim-signature'
+
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
 
@@ -232,6 +244,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_ctrlp()
 	call s:configure_plugins_tagbar()
+	call s:configure_plugins_signature()
 endfunction
 " ------------------------------------------------------------------------------
 
