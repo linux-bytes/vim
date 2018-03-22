@@ -523,11 +523,13 @@ call s:configure_file_encoding()
 call s:configure_global_shortkey()
 
 if has("autocmd")
-	autocmd FileType		c			call s:configure_ft_c_h()
-	autocmd FileType		h			call s:configure_ft_c_h()
+	autocmd FileType		c,h			call s:configure_ft_c_h()
 
 	autocmd FileType		python		call s:configure_ft_py()
 	autocmd FileType		java		call s:configure_ft_java()
+
+	autocmd FileType		make		setlocal isk+=-
+	autocmd FileType		dts			setlocal isk+=-
 
 	autocmd BufReadPost		*			call s:configure_ft_all()
 
