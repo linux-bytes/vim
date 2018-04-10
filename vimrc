@@ -200,8 +200,7 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:configure_plugins_plantuml()
-	let g:plantuml_executable_script='java -jar /usr/local/bin/plantuml.jar'
-	autocmd FileType		plantuml		noremap		<silent><F5>	:make<cr><cr>
+	autocmd FileType	plantuml	noremap		<silent><F5>	:make<cr><cr>
 endfunction
 " ------------------------------------------------------------------------------
 
