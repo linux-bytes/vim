@@ -508,9 +508,25 @@ endfunction
 " Custom GUI
 " ------------------------------------------------------------------------------
 "
+function! s:toggle_quickfix()
+	for i in range(1, winnr('$'))
+		let win = winbufnr(i)
+
+		if getbufvar(win, '&buftype') == 'quickfix'
+			cclose
+			return
+		endif
+	endfor
+
+	copen
+endfunction
+
 function! s:configure_gui()
 	set mouse		=a
 	set guitablabel	=%t
+
+	command!	TQ			call s:toggle_quickfix()
+	noremap		<F4>		:TQ<CR>
 
 	set guifont=Inconsolata\ 11
 	"set guifont=Liberation\ Mono\ 10
