@@ -196,6 +196,17 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For plantuml
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_plantuml()
+	let g:plantuml_executable_script='java -jar /usr/local/bin/plantuml.jar'
+	autocmd FileType		plantuml		noremap		<silent><F5>	:make<cr><cr>
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -245,6 +256,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_ctrlp()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
+	call s:configure_plugins_plantuml()
 endfunction
 " ------------------------------------------------------------------------------
 
