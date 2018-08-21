@@ -231,7 +231,10 @@ function! s:configure_plugins_manager()
 	Plug 'FelikZ/ctrlp-py-matcher'
 	Plug 'tacahiroy/ctrlp-funky'
 
-	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
+	Plug 'jdevera/vim-opengrok-search'
+
+	" Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
+	Plug 'davidhalter/jedi-vim'
 
 	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
@@ -450,15 +453,13 @@ function! s:configure_ft_c_h()
 	setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=80 noexpandtab
 
 	setlocal cindent
-	setlocal autoindent
-	setlocal smartindent
 	setlocal grepprg     =grep\ -nH\ $*
 
 	setlocal completeopt =longest,menu
 
 	" Some C formatting settings
-	setlocal comments& comments-=s1:/* comments^=s0:/*
-	setlocal cino=c4,C4
+	" setlocal comments& comments-=s1:/* comments^=s0:/*
+	setlocal cino+=c4,C4,l1,:0,
 
 	call s:configure_linux_kernel_path()
 
