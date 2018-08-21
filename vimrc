@@ -404,12 +404,6 @@ function! s:configure_global_shortkey()
 	" <leader>o		close current windows/tab
 	noremap		<leader>c			:confirm close<cr>
 
-	" g[bB] in command mode switch to the next/prev. buffer
-	noremap		gb					:bnext<cr>
-	noremap		gB					:bprev<cr>
-	noremap		<c-pagedown>		:bnext<cr>
-	noremap		<c-pageup>			:bprev<cr>
-
 	if has("unix")
 		noremap	<leader>e			:e <C-R>=expand("%:h") . "/" <CR>
 	else
@@ -499,6 +493,17 @@ function! s:configure_ft_all()
 	" Putting the cursor at the same position before last exit.
 	if line("'\"") > 0 && line ("'\"") <= line("$")
 		exe "normal g'\""
+	endif
+
+	" Maybe the following instruction will be used in future.
+	" autocmd Filetype * if &ft!="python"|put your code here|endif
+
+	if &ft != "nerdtree" && &ft != "tagbar"  && &ft != "qf"
+		" g[bB] in command mode switch to the next/prev. buffer
+		noremap <buffer> gb				:bnext<cr>
+		noremap <buffer> gB				:bprev<cr>
+		noremap <buffer> <c-pagedown>	:bnext<cr>
+		noremap <buffer> <c-pageup>		:bprev<cr>
 	endif
 endfunction
 " ------------------------------------------------------------------------------
