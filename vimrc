@@ -206,6 +206,17 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For ogsearch
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_ogsearch()
+    let g:ogs_app_url = 'http://10.20.72.36:8080/source/'
+    let g:ogs_browser_command = 'google-chrome-stable'
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For the vim scripts manager --- vim plug
 " ------------------------------------------------------------------------------
 
@@ -259,6 +270,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
 	call s:configure_plugins_plantuml()
+	call s:configure_plugins_ogsearch()
 endfunction
 " ------------------------------------------------------------------------------
 
