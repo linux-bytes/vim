@@ -576,7 +576,7 @@ if has("autocmd")
 	autocmd FileType		make		setlocal isk+=-
 	autocmd FileType		dts			setlocal isk+=-
 
-	autocmd BufReadPost		*			call s:configure_ft_all()
+	autocmd FileType		*			call s:configure_ft_all()
 
 	autocmd FileType		qf			set nowrap
 	autocmd BufRead			*.txt		set tw=80
