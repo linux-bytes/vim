@@ -579,6 +579,8 @@ if has("autocmd")
 	autocmd FileType		*			call s:configure_ft_all()
 
 	autocmd FileType		qf			set nowrap
+	autocmd FileType		qf			wincmd J
+
 	autocmd BufRead			*.txt		set tw=80
 
 	" If you prefer the Omni-Completion tip window to close when a selection is
