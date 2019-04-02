@@ -487,7 +487,7 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:configure_ft_py()
-	setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=80 noexpandtab
+	setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=80 noexpandtab
 
 	let g:pydoc_cmd      ='/usr/bin/pydoc2.7'
 endfunction
