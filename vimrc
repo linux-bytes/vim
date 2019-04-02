@@ -205,6 +205,7 @@ endfunction
 "
 function! s:configure_plugins_plantuml()
 	autocmd FileType	plantuml	noremap		<silent><F5>	:make<cr><cr>
+	"let g:plantuml_executable_script='plantuml -tpng'
 endfunction
 " ------------------------------------------------------------------------------
 
