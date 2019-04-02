@@ -168,6 +168,10 @@ function! BuildYouCompleteMe(info)
 		!./install.py --java-completer
 	endif
 endfunction
+
+function! s:configure_plugins_ycm()
+	let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_conf/ycm_extra_conf.py"
+endfunction
 " ------------------------------------------------------------------------------
 
 
@@ -244,8 +248,10 @@ function! s:configure_plugins_manager()
 
 	Plug 'jdevera/vim-opengrok-search'
 
-	" Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
-	Plug 'davidhalter/jedi-vim'
+	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
+	Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+
+	"Plug 'davidhalter/jedi-vim'
 
 	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
@@ -267,6 +273,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_airline()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_ctrlp()
+	call s:configure_plugins_ycm()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
 	call s:configure_plugins_plantuml()
