@@ -170,7 +170,25 @@ function! BuildYouCompleteMe(info)
 endfunction
 
 function! s:configure_plugins_ycm()
-	let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_conf/ycm_extra_conf.py"
+	let g:ycm_use_clangd = 0
+	let ycm_conf = getcwd() . "/.ycm_extra_conf.py"
+	if filereadable(ycm_conf)
+		let g:ycm_global_ycm_extra_conf = ycm_conf
+	else
+		let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_conf/ycm_extra_conf.py"
+	endif
+	"let g:ycm_server_python_interpreter='/usr/bin/python'
+	"let g:ycm_show_diagnostics_ui = 0                  "关闭语法提示
+	let g:ycm_complete_in_comments=1                   " 补全功能在注释中同样有效
+	let g:ycm_confirm_extra_conf=0                     " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+	let g:ycm_collect_identifiers_from_tags_files=1    " 开启 YCM 标签补全引擎
+	let g:ycm_min_num_of_chars_for_completion=1        " 从第一个键入字符就开始罗列匹配项
+	let g:ycm_cache_omnifunc=0                         " 禁止缓存匹配项，每次都重新生成匹配项
+	let g:ycm_seed_identifiers_with_syntax=1           " 语法关键字补全
+	"let g:ycm_goto_buffer_command = 'horizontal-split' " 跳转打开上下分屏
+	map <F10>		:YcmCompleter GoToDefinition<CR>
+	map <F11>		:YcmCompleter GoToDeclaration<CR>
+	map <F12>		:YcmCompleter GoToDefinitionElseDeclaration<CR>
 endfunction
 " ------------------------------------------------------------------------------
 
