@@ -164,11 +164,11 @@ function! BuildYouCompleteMe(info)
 	" - status: 'installed', 'updated', or 'unchanged'
 	" - force:  set on PlugInstall! or PlugUpdate!
 	if a:info.status == 'installed' || a:info.force
-		!./install.py --clang-completer
-		!./install.py --java-completer
+		!./install.py --clang-completer --java-completer
 	endif
 endfunction
 
+" YouCompleteMe Settings
 function! s:configure_plugins_ycm()
 	let g:ycm_use_clangd = 0
 	let ycm_conf = getcwd() . "/.ycm_extra_conf.py"
