@@ -221,8 +221,15 @@ endfunction
 " For plantuml
 " ------------------------------------------------------------------------------
 "
+function! Plantuml_pdf()
+	execute "!plantuml -tsvg " . expand("%:p")
+	execute "!rsvg-convert -f pdf -o " . expand("%:p:r") . ".pdf " . expand("%:p:r") . ".svg"
+	execute "!rm " . expand("%:p:r") . ".svg"
+endfunction
+
 function! s:configure_plugins_plantuml()
 	autocmd FileType	plantuml	noremap		<silent><F5>	:make<cr><cr>
+	autocmd FileType	plantuml	noremap		<silent><F6>	:call Plantuml_pdf()<cr>
 	"let g:plantuml_executable_script='plantuml -tpng'
 endfunction
 " ------------------------------------------------------------------------------
