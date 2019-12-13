@@ -509,6 +509,10 @@ function! s:configure_ft_c_h()
 
 	" Review a function in a preview window.
 	noremap		<silent>;			:ptag <C-R>=expand("<cword>")<CR><CR>
+
+	packadd termdebug
+	let g:termdebugger = "arm-none-eabi-gdb"
+	let g:termdebug_popup = 1
 endfunction
 " ------------------------------------------------------------------------------
 
