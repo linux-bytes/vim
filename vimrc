@@ -259,6 +259,7 @@ function! s:configure_plugins_manager()
 	Plug 'jlanzarotta/bufexplorer'
 
 	Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+	Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
@@ -288,6 +289,10 @@ function! s:configure_plugins_manager()
 	Plug 'aklt/plantuml-syntax', {'for': ['pu', 'uml', 'plantuml']}
 
 	Plug 'kshenoy/vim-signature'
+
+	Plug 'lfv89/vim-interestingwords'
+
+	"Plug 'zxqfl/tabnine-vim', {'for': ['c', 'h', 'cpp', 'py']}
 
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
