@@ -292,6 +292,8 @@ function! s:configure_plugins_manager()
 
 	Plug 'lfv89/vim-interestingwords'
 
+	Plug 'yianwillis/vimcdoc'
+
 	"Plug 'zxqfl/tabnine-vim', {'for': ['c', 'h', 'cpp', 'py']}
 
 	" List ends here. Plugins become visible to Vim after this call.
