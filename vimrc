@@ -195,6 +195,18 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For ACK
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_ack()
+	if executable('ag')
+		let g:ackprg = 'ag --vimgrep'
+	endif
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For Tagbar
 " ------------------------------------------------------------------------------
 "
@@ -279,6 +291,8 @@ function! s:configure_plugins_manager()
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
 
 	"Plug 'davidhalter/jedi-vim'
+	Plug 'mileszs/ack.vim'
+	Plug 'rking/ag.vim'
 
 	Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
@@ -294,6 +308,8 @@ function! s:configure_plugins_manager()
 
 	Plug 'yianwillis/vimcdoc'
 
+	Plug 'nvie/vim-rst-tables'
+
 	"Plug 'zxqfl/tabnine-vim', {'for': ['c', 'h', 'cpp', 'py']}
 
 	" List ends here. Plugins become visible to Vim after this call.
@@ -307,6 +323,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_ctrlp()
 	call s:configure_plugins_ycm()
+	call s:configure_plugins_ack()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
 	call s:configure_plugins_plantuml()
