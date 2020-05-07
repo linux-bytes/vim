@@ -5,27 +5,28 @@
 "
 
 function! Filelist(dir, suffix)
-      return readdir(a:dir, {n -> n =~ a:suffix+'$'}) 
+      return readdir(a:dir, {n -> n =~ a:suffix.'$'}) 
 endfunction
 
 function! CFilelist(dir)
-	echo "===> " + a:dir
 	let l:curr_dir = expand("%:h")
-	let l:files = Filelist(a:dir, '.c')
+	let l:files = Filelist(a:dir, '\.c')
+	let l:files += Filelist(a:dir, '\.cpp')
 
-	let l:dir = trim(a:dir, l:curr_dir)
+	if (l:files->empty())
+		return 0
+	endif
 
-	let l:buf = []
+	let l:dir = substitute(a:dir, "^".l:curr_dir."/","","")
 
-	for i in l:files:
-		call add(l:buf, printf("%s/%s \\", l:dir, f)) 
-	endfor
+	call map(l:files, 'l:dir.v:val." \\"')
+	let l:files[-1] = substitute(l:files[-1], " \\","","")
 
-	let ret = append('.', l:buf)
+	let ret = append('.', l:files)
 	return ret
 endfunction
 
-command! -nargs=1 -complete=dir	Gc	call CFilelist(<args>)
+command! -nargs=1 -complete=dir	Gc	call CFilelist("<args>")
 noremap	<leader>l	:Gc <C-R>=expand("%:h") . "/" <CR>
 
 " command! -nargs=1	Gcpp	call GenTikz(<line1>, <line2>)
