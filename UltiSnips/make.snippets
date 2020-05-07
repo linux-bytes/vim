@@ -1,0 +1,53 @@
+snippet lp
+LOCAL_PATH:= $(call my-dir)
+endsnippet
+
+snippet be
+include $(CLEAR_VARS)
+LOCAL_MODULE:= $1
+LOCAL_SRC_FILES:= 
+LOCAL_INCLUDE_DIRS:=$(LOCAL_PATH)/include
+LOCAL_CFLAGS:=
+LOCAL_LDFLAGS:=
+LOCAL_SHARED_LIBRARIES:=
+include $(BUILD_EXECUTABLE)
+endsnippet
+
+snippet bs
+include $(CLEAR_VARS)
+LOCAL_MODULE:= $1
+LOCAL_SRC_FILES:= 
+LOCAL_INCLUDE_DIRS:=$(LOCAL_PATH)/include
+LOCAL_CFLAGS:=
+LOCAL_LDFLAGS:=
+LOCAL_SHARED_LIBRARIES:=
+LOCAL_EXPORT_C_INCLUDE_DIRS:=$(LOCAL_PATH)/include
+include $(BUILD_SHARED_LIBRARY)
+endsnippet
+
+snippet ps
+include $(CLEAR_VARS)
+LOCAL_MODULE:= $1
+LOCAL_MODULE_CLASS:= SYSTEMD
+LOCAL_SRC_FILES:= $1
+LOCAL_MODULE_SYMLINKS:= /etc/systemd/system/multi-user.target.wants/$1
+include $(BUILD_PREBUILT)
+endsnippet
+
+snippet pv
+include $(CLEAR_VARS)
+LOCAL_MODULE:= $1
+LOCAL_MODULE_CLASS:= VAR
+LOCAL_SRC_FILES:= $1
+LOCAL_MODULE_SYMLINKS:= /etc/systemd/system/multi-user.target.wants/$1
+include $(BUILD_PREBUILT)
+endsnippet
+
+snippet pe
+include $(CLEAR_VARS)
+LOCAL_MODULE:= $1
+LOCAL_MODULE_CLASS:= ETC
+LOCAL_SRC_FILES:= $1
+LOCAL_MODULE_SYMLINKS:= /etc/systemd/system/multi-user.target.wants/$1
+include $(BUILD_PREBUILT)
+endsnippet
