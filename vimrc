@@ -202,6 +202,7 @@ function! s:configure_plugins_ack()
 	if executable('ag')
 		let g:ackprg = 'ag --vimgrep'
 	endif
+	noremap         ss                      :Ack <C-R>=expand("<cword>")<CR>
 endfunction
 " ------------------------------------------------------------------------------
 
