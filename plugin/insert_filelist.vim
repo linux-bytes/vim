@@ -8,10 +8,15 @@ function! Filelist(dir, suffix)
       return readdir(a:dir, {n -> n =~ a:suffix.'$'}) 
 endfunction
 
-function! CFilelist(dir)
+function! Insert_Filelist(dir)
 	let l:curr_dir = expand("%:h")
-	let l:files = Filelist(a:dir, '\.c')
-	let l:files += Filelist(a:dir, '\.cpp')
+
+	if (exists("g:insert_fl#type_pattern"))
+		let l:type_pattern=g:insert_fl#type_pattern
+	else
+		let l:type_pattern='\.\(c\|cpp\)'
+
+	let l:files = Filelist(a:dir, l:type_pattern)
 
 	if (l:files->empty())
 		return 0
@@ -26,8 +31,5 @@ function! CFilelist(dir)
 	return ret
 endfunction
 
-command! -nargs=1 -complete=dir	Gc	call CFilelist("<args>")
-noremap	<leader>l	:Gc <C-R>=expand("%:h") . "/" <CR>
-
-" command! -nargs=1	Gcpp	call GenTikz(<line1>, <line2>)
-" command! -nargs=1	Gs	call Gen_Tikz_Rel()
+command! -nargs=1 -complete=dir	Gc	call Insert_Filelist("<args>")
+noremap	<leader>l			:Gc <C-R>=expand("%:h") . "/" <CR>
