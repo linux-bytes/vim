@@ -164,7 +164,7 @@ function! BuildYouCompleteMe(info)
 	" - status: 'installed', 'updated', or 'unchanged'
 	" - force:  set on PlugInstall! or PlugUpdate!
 	if a:info.status == 'installed' || a:info.force
-		!./install.py --clang-completer --java-completer
+		!./install.py --clang-completer --java-completer --go-completer
 	endif
 endfunction
 
@@ -193,6 +193,22 @@ function! s:configure_plugins_ycm()
 endfunction
 " ------------------------------------------------------------------------------
 
+
+" ------------------------------------------------------------------------------
+" For Vim-go
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_vimgo()
+    autocmd FileType go nmap	<leader>b		<Plug>(go-build)
+    autocmd FileType go nmap	<leader>r		<Plug>(go-run)
+    autocmd FileType go nmap	<leader>rv		<Plug>(go-run-vertical)
+    autocmd FileType go nmap	<leader>rs		<Plug>(go-run-split)
+    autocmd FileType go nmap	<leader>rr		:GoRun %<CR>
+	autocmd FileType go nmap	<Leader>i		<Plug>(go-info)
+	let g:go_template_autocreate = 0
+endfunction
+" ------------------------------------------------------------------------------
+"
 
 " ------------------------------------------------------------------------------
 " For ACK
@@ -289,7 +305,9 @@ function! s:configure_plugins_manager()
 
 	Plug 'jdevera/vim-opengrok-search'
 
-	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java'], 'do': function('BuildYouCompleteMe') }
+	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java', 'go'], 'do': function('BuildYouCompleteMe') }
+
+	Plug 'fatih/vim-go'
 
 	"Plug 'davidhalter/jedi-vim'
 	Plug 'mileszs/ack.vim'
@@ -324,6 +342,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_ctrlp()
 	call s:configure_plugins_ycm()
+	call s:configure_plugins_vimgo()
 	call s:configure_plugins_ack()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
