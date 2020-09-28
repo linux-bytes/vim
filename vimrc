@@ -114,19 +114,52 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:configure_plugins_ctrlp()
-	let g:ctrlp_map				='<c-p>'
-	let g:ctrlp_cmd				='CtrlP'
+	" ctrl-p 搜索当前目录下文件
+	" let g:ctrlp_map				='<c-p>'
+	" let g:ctrlp_cmd				='CtrlP'
+	" let g:ctrlp_cmd				='CtrlPMixed'
+
+	" ctrl-m 搜索MRU文件
+	nmap	<c-m>					:CtrlPMRUFiles<CR>
+
+	" ctrl-b 显示缓冲区文件，并可通过序号进行跳转
+	nmap	<c-b>					:CtrlPBuffer<CR>
+
 	" 1: search file by file name
 	" 0: search file by full path
-	let g:ctrlp_by_filename		=0
+	" 默认使用全路径搜索，置1后按文件名搜索，准确率会有所提高，可以用<C-d>进行切换
+	let g:ctrlp_by_filename		=1
+
+	" 'c' - the directory of the current file.
+	" 'a' - the directory of the current file, unless it is a subdirectory of the cwd
+	" 'r' - the nearest ancestor of the current file that contains one of these
+	"       directories or files: .git .hg .svn .bzr _darcs
+	" 'w' - modifier to \"r\": start search from the cwd instead of the current file's
+	"       directory
+	" 0 or '' (empty string) - disable this feature.
+	let g:ctrlp_working_path_mode = 'ra'
+
 	" Set no file limit, we are building a big project
 	let g:ctrlp_max_files		=0
+
+	" 默认不使用正则表达式，置1改为默认使用正则表达式，可以用<C-r>进行切换
+	let g:ctrlp_regexp = 0
+
+	" 设置MRU最大条目数为500
+	let g:ctrlp_mruf_max = 500
+
+	" 设置搜索时忽略的文件
+	let g:ctrlp_custom_ignore = {
+				\ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+				\ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+				\ }
 
 	" If ag is available use it as filename list generator instead of 'find'
 	" if executable("ag")
 	"     set grepprg=ag\ --nogroup\ --nocolor
 	"     let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
 	" endif
+	" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 	let g:ctrlp_user_command	={
 				\ 'types': {
 				\ 1: ['.git', 'cd %s && git ls-files -co --exclude-standard'],
@@ -134,7 +167,9 @@ function! s:configure_plugins_ctrlp()
 				\ },
 				\ 'fallback': 'ag %s -l --nocolor -g ""'
 				\ }
+
 	let g:ctrlp_match_window	='bottom,order:btt,min:1,max:100,results:1000'
+	let g:ctrlp_match_window_bottom = 1
 
 	" PyMatcher for CtrlP
 	let g:ctrlp_match_func		={ 'match': 'pymatcher#PyMatch'}
@@ -150,6 +185,15 @@ function! s:configure_plugins_ctrlp()
 	nnoremap	<c-\>			:CtrlPFunky<Cr>
 	" narrow the list down with a word under cursor
 	nnoremap	<c-?>			:execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+	" 自定义搜索列表的提示符
+	let g:ctrlp_line_prefix = '♪ '
+
+	" 修改QuickFix窗口显示的最大条目数
+	let g:ctrlp_max_height = 15
+
+	let g:ctrlp_match_window_reversed = 0
+	let g:ctrlp_follow_symlinks = 1
 endfunction
 " ------------------------------------------------------------------------------
 
