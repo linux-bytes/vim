@@ -199,6 +199,19 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For fzf
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_fzf()
+	nmap	<C-p>				:Files<CR>
+	nmap	<C-e>				:Buffers<CR>
+
+	let g:fzf_action={ 'ctrl-e': 'edit'}
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For YouCompleteMe
 " ------------------------------------------------------------------------------
 "
@@ -343,9 +356,8 @@ function! s:configure_plugins_manager()
 
 	Plug 'airblade/vim-gitgutter'
 
-	Plug 'ctrlpvim/ctrlp.vim'
-	Plug 'FelikZ/ctrlp-py-matcher'
-	Plug 'tacahiroy/ctrlp-funky'
+	" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
 
 	Plug 'jdevera/vim-opengrok-search'
 
@@ -384,7 +396,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_ultisnips()
 	call s:configure_plugins_airline()
 	call s:configure_plugins_gitgutter()
-	call s:configure_plugins_ctrlp()
+	call s:configure_plugins_fzf()
 	call s:configure_plugins_ycm()
 	call s:configure_plugins_vimgo()
 	call s:configure_plugins_ack()
