@@ -362,10 +362,10 @@ function! s:configure_plugins_manager()
 	Plug 'jdevera/vim-opengrok-search'
 
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java', 'go'], 'do': function('BuildYouCompleteMe') }
+	"Plug 'davidhalter/jedi-vim'
 
 	Plug 'fatih/vim-go'
 
-	"Plug 'davidhalter/jedi-vim'
 	Plug 'mileszs/ack.vim'
 	Plug 'rking/ag.vim'
 
@@ -386,6 +386,8 @@ function! s:configure_plugins_manager()
 	Plug 'nvie/vim-rst-tables'
 
 	"Plug 'zxqfl/tabnine-vim', {'for': ['c', 'h', 'cpp', 'py']}
+	" Themes
+	Plug 'morhetz/gruvbox'
 
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
