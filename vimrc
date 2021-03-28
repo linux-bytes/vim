@@ -356,13 +356,13 @@ function! s:configure_plugins_manager()
 
 	Plug 'airblade/vim-gitgutter'
 
-	" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 
 	Plug 'jdevera/vim-opengrok-search'
 
-	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java', 'go'], 'do': function('BuildYouCompleteMe') }
-	"Plug 'davidhalter/jedi-vim'
+	"Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java', 'go'], 'do': function('BuildYouCompleteMe') }
+	Plug 'davidhalter/jedi-vim'
 
 	Plug 'fatih/vim-go'
 
