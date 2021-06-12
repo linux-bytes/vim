@@ -1,44 +1,8 @@
 " File:          cscope_tags.vim
 " Author:        Jerry
-" Version:       0.1
-" Last Modified: Feb. 15, 2018
+" Version:       1.0
+" Last Modified: June. 12, 2021
 "
-
-if !exists('g:cscope_tags_db_path')
-	let g:cscope_tags_db_path=["./", "./cstags/"]
-endif
-
-" ------------------------------------------------------------------------------
-" Find "cscope.out" file in the path stored in g:cscope_tags_db_path
-" ------------------------------------------------------------------------------
-"
-function! s:find_cscope_db()
-	for path in g:cscope_tags_db_path
-		let path = path . "cscope.out"
-		if filereadable(path)
-			return path
-		endif
-	endfor
-
-	return ""
-endfunction
-" ------------------------------------------------------------------------------
-
-" ------------------------------------------------------------------------------
-" Find "tags" file in the path stored in g:cscope_tags_db_path
-" ------------------------------------------------------------------------------
-"
-function! s:find_tags_db()
-	for path in g:cscope_tags_db_path
-		let path = path . "tags"
-		if filereadable(path)
-			return path
-		endif
-	endfor
-
-	return ""
-endfunction
-" ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
 " Configure the Short Key for cscope
@@ -65,46 +29,134 @@ endfunction
 " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
-" Configure cscope
+" Add cscope.db into current system
 " ------------------------------------------------------------------------------
 "
-function! s:configure_cscope()
-	if !has("cscope")
-		return 0
-	endif
-
-	let cscope_path = s:find_cscope_db()
-	if cscope_path == ""
-		return 0
-	endif
-
-	set nocsverb
-	execute "cs add " . cscope_path
-	if cscope_path != "./cscope.out" || cscope_path != "cscope.out"
-		set cscoperelative
-	endif
-	set nocscoperelative
+function! s:add_cscope_db(cscope_db, code_path)
+	set nocscopeverbose " Turn off message show: Don't show error or success.
+	exe "cs add " . a:cscope_db . " " . a:code_path
+	set cscopeverbose   " Turn on message show
+    " s: 查找本 C 符号
+    " g: 查找本定义
+    " d: 查找本函数调用的函数
+    " c: 查找调用本函数的函数
+    " t: 查找本字符串
+    " e: 查找本 egrep 模式
+    " f: 查找本文件
+    " i: 查找包含本文件的文件
+    " a: 查找此符号被赋值的位置
+	" 查找 C 符号, 调用本函数的函数, egrep 结果, 不会主动弹出 Quickfix 窗口
 	set cscopequickfix=s-,c-,e-
-	set csto=0
-	set cst
-	set csverb
+	set cscoperelative
+	set csto=0			" cscope.out is first, tags is second
+	set cst				" vim -t also search cscope.out
 
 	call s:configure_cscope_shortkey()
 endfunction
 " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
-" Configure "tags"
+" Load cscope
 " ------------------------------------------------------------------------------
 "
-function! s:configure_tags()
-	let tags_path = s:find_tags_db()
-	if tags_path == "" ||  tags_path == "./tags" || tags_path == "tags"
-		let &tags = getcwd() . "/tags"
-		return
+function! s:load_cscope()
+	if !has("cscope")
+		return 0
 	endif
-	let &tags = tags_path
-	set tagrelative
+
+	" Step1: find cscope.out in the current working directory and upper
+	" directory.
+	let cscope_db = findfile("cscope.out", ".;")
+	if (!empty(cscope_db) && filereadable(cscope_db))
+		let code_path = strpart(cscope_db, 0, match(cscope_db, "/cscope.out$"))
+
+		call s:add_cscope_db(cscope_db, code_path)
+
+		return 0
+	endif
+
+	" Step2: find cstags/cscope.out in the current working directory and
+	" upper directory.
+	let cscope_db = findfile("cstags/cscope.out", ".;")
+	if (!empty(cscope_db) && filereadable(cscope_db))
+		let code_path = strpart(cscope_db, 0, match(cscope_db, "/cstags/cscope.out$"))
+
+		call s:add_cscope_db(cscope_db, code_path)
+
+		return 0
+	endif
+
+	" Step3: Detect the environment variable: $CSCOPE_DB
+	let cscope_db = $CSCOPE_DB
+	if (!empty(cscope_db) && filereadable(cscope_db))
+		let code_path = strpart(cscope_db, 0, match(cscope_db, "/cscope.out$"))
+
+		call s:add_cscope_db(cscope_db, code_path)
+
+		return 0
+	endif
+
+	return -1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
+" Search the "tags"
+" 1. 先当前路径下找 "tags", 然后依次往上级目录找
+" 2. 再在当前目录的找 "cstags/tags" (就是说把 tags 放入 cstags 目录下), 依次递
+"    归每一个上级目录
+" ------------------------------------------------------------------------------
+"
+function! s:find_tags_db()
+	" Step1: find TAGS in the current working directory and upper
+	" directory.
+	let tags_db = findfile("TAGS", ".;")
+	if (!empty(tags_db) && filereadable(tags_db))
+		return strpart(tags_db, 0, match(tags_db, "/TAGS$"))
+	endif
+
+	" Step2: find cstags/TAGS in the current working directory and
+	" upper directory.
+	let tags_db = findfile("cstags/TAGS", ".;")
+	if (!empty(tags_db) && filereadable(tags_db))
+		return strpart(tags_db, 0, match(tags_db, "/cstags/TAGS$"))
+	endif
+
+	" Step3: find tags in the current working directory and upper
+	" directory.
+	let tags_db = findfile("tags", ".;")
+	if (!empty(tags_db) && filereadable(tags_db))
+		return strpart(tags_db, 0, match(tags_db, "/tags$"))
+	endif
+
+	" Step4: find cstags/tags in the current working directory and
+	" upper directory.
+	let tags_db = findfile("cstags/tags", ".;")
+	if (!empty(tags_db) && filereadable(tags_db))
+		return strpart(tags_db, 0, match(tags_db, "/cstags/tags$"))
+	endif
+
+
+	return ""
+endfunction
+" ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
+" Load "tags"
+" ------------------------------------------------------------------------------
+"
+function! s:load_tags()
+	set tags=TAGS;,tags;cstags/TAGS;,cstags/tags;
+
+	let tags_path = s:find_tags_db()
+	if tags_path != ""
+		exe "chdir " . tags_path
+	endif
+
+	" let &path+=fnamemodify(tagfiles()[0], ':p:h')
+	set tagbsearch  " 加速查找
+	set notagrelative
 endfunction
 " ------------------------------------------------------------------------------
 
@@ -113,8 +165,8 @@ endfunction
 " The main process
 " ------------------------------------------------------------------------------
 "
-call s:configure_tags()
-call s:configure_cscope()
+call s:load_tags()
+call s:load_cscope()
 " ------------------------------------------------------------------------------
 
 " vim:set ts=4 sw=4 filetype=vim:
