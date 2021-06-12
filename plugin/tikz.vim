@@ -5,7 +5,6 @@
 "
 
 function! TestPy() range
-
     let startline = line("'<")
     let endline = line("'>")
     echo "vim-start:".startline . " vim-endline:".endline
@@ -156,5 +155,9 @@ endfunction
 command!  -range -nargs=0	PR	<line1>,<line2>call Print_Range(<line1>, <line2>)
 command!  -range -nargs=0	GT	<line1>,<line2>call GenTikz(<line1>, <line2>)
 command!  -range -nargs=0	Gtr	<line1>,<line2>call Gen_Tikz_Rel()
-noremap	  <F10>			:GT<CR>
-noremap	  <F9>			:Gtr<CR>
+
+
+autocmd FileType tex noremap	  <F10>			:GT<CR>
+autocmd FileType tex noremap	  <F9>			:Gtr<CR>
+
+" vim:set ts=4 sw=4 filetype=vim:
