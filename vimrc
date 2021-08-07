@@ -392,6 +392,8 @@ function! s:configure_plugins_manager()
 	"Plug 'zxqfl/tabnine-vim', {'for': ['c', 'h', 'cpp', 'py']}
 	" Themes
 	Plug 'morhetz/gruvbox'
+	Plug 'tomasr/molokai'
+	Plug 'sickill/vim-monokai'
 
 	" List ends here. Plugins become visible to Vim after this call.
 	call plug#end()
