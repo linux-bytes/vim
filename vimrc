@@ -221,7 +221,8 @@ function! BuildYouCompleteMe(info)
 	" - status: 'installed', 'updated', or 'unchanged'
 	" - force:  set on PlugInstall! or PlugUpdate!
 	if a:info.status == 'installed' || a:info.force
-		!./install.py --clang-completer --java-completer --go-completer
+		" !./install.py --clang-completer --java-completer --go-completer
+		!./install.py --clang-completer
 	endif
 endfunction
 
@@ -361,8 +362,11 @@ function! s:configure_plugins_manager()
 
 	Plug 'jdevera/vim-opengrok-search'
 
-	"Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python', 'java', 'go'], 'do': function('BuildYouCompleteMe') }
-	Plug 'davidhalter/jedi-vim'
+	" YouCompleteMe is for c/c++, python. For some Linux distribution and some
+	" people's host doesn't install java RTE and go, so, their supporting was
+	" disabled. jedi-vim is only for python.
+	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python'], 'do': function('BuildYouCompleteMe') }
+	" Plug 'davidhalter/jedi-vim'
 
 	Plug 'fatih/vim-go'
 
