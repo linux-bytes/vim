@@ -714,6 +714,7 @@ if has("autocmd")
 	" set a default filetype if vim couldn't detect this file filetype.
 	autocmd BufReadPost		*			if &filetype == "" | setlocal ft=text | endif
 
+	autocmd FileType		gitcommit	set spell
 	autocmd FileType		c,h			call s:configure_ft_c_h()
 
 	autocmd FileType		python		call s:configure_ft_py()
