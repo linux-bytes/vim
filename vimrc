@@ -391,7 +391,7 @@ function! s:configure_plugins_manager()
 	" disabled. jedi-vim is only for python.
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python'], 'do': function('BuildYouCompleteMe') }
 	" Plug 'davidhalter/jedi-vim'
-	Plug 'lyuts/vim-rtags', {'for': ['c', 'h', 'asm', 'cpp']}
+	Plug 'lyuts/vim-rtags'
 
 	Plug 'fatih/vim-go'
 
