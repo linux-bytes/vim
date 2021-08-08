@@ -674,10 +674,15 @@ function! s:configure_ft_all()
 
 	if &ft != "nerdtree" && &ft != "tagbar"  && &ft != "qf"
 		" g[bB] in command mode switch to the next/prev. buffer
-		noremap <buffer> gb				:bnext<cr>
-		noremap <buffer> gB				:bprev<cr>
-		noremap <buffer> <c-pagedown>	:bnext<cr>
-		noremap <buffer> <c-pageup>		:bprev<cr>
+		noremap <buffer> bb					:bnext<cr>
+		noremap <buffer> BB					:bprev<cr>
+		if has("gui_running")
+			noremap <buffer> <c-pagedown>	:bnext<cr>
+			noremap <buffer> <c-pageup>		:bprev<cr>
+		else
+			noremap <buffer> <M-pagedown>	:bnext<cr>
+			noremap <buffer> <M-pageup>		:bprev<cr>
+		endif
 	endif
 endfunction
 " ------------------------------------------------------------------------------
