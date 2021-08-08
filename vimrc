@@ -70,10 +70,21 @@ function! s:configure_plugins_airline()
 
 	" Enable the list of buffers
 	let g:airline#extensions#tabline#enabled		=1
+	let g:airline#extensions#tabline#buffer_idx_mode=1
 	" Show just the filename
 	let g:airline#extensions#tabline#fnamemod		=':t'
 	"let g:airline#extensions#tabline#left_sep		=' '
 	"let g:airline#extensions#tabline#left_alt_sep	='|'
+
+	nmap	tt					<Plug>AirlineSelectNextTab
+	nmap	TT					<Plug>AirlineSelectPrevTab
+	if has("gui_running")
+		nmap <c-pagedown>		<Plug>AirlineSelectNextTab
+		nmap <c-pageup>			<Plug>AirlineSelectPrevTab
+	else
+		nmap <M-pagedown>		<Plug>AirlineSelectNextTab
+		nmap <M-pageup>			<Plug>AirlineSelectPrevTab
+	endif
 
 	let g:airline#extensions#whitespace#enabled		=0
 	autocmd FileType python  let g:airline#extensions#whitespace#enabled=1
@@ -667,22 +678,6 @@ function! s:configure_ft_all()
 	" Putting the cursor at the same position before last exit.
 	if line("'\"") > 0 && line ("'\"") <= line("$")
 		exe "normal g'\""
-	endif
-
-	" Maybe the following instruction will be used in future.
-	" autocmd Filetype * if &ft!="python"|put your code here|endif
-
-	if &ft != "nerdtree" && &ft != "tagbar"  && &ft != "qf"
-		" g[bB] in command mode switch to the next/prev. buffer
-		noremap <buffer> bb					:bnext<cr>
-		noremap <buffer> BB					:bprev<cr>
-		if has("gui_running")
-			noremap <buffer> <c-pagedown>	:bnext<cr>
-			noremap <buffer> <c-pageup>		:bprev<cr>
-		else
-			noremap <buffer> <M-pagedown>	:bnext<cr>
-			noremap <buffer> <M-pageup>		:bprev<cr>
-		endif
 	endif
 endfunction
 " ------------------------------------------------------------------------------
