@@ -667,9 +667,8 @@ function! s:configure_ft_all()
 endfunction
 " ------------------------------------------------------------------------------
 
-
 " ------------------------------------------------------------------------------
-" Custom GUI
+" Custom UI
 " ------------------------------------------------------------------------------
 "
 function! ToggleQuickFix()
@@ -680,20 +679,22 @@ function! ToggleQuickFix()
     endif
 endfunction
 
-function! s:configure_gui()
-	set mouse		=a
-	set guitablabel	=%t
-
+function! s:configure_ui()
 	noremap		<F4>		:call ToggleQuickFix()<CR>
 
-	set guifont=Inconsolata\ 11
-	"set guifont=Liberation\ Mono\ 10
-	"set guifont=DejaVu\ Sans\ Mono\ 10
-	"set guifont=Monospace\ 10
-	"set guifont=Droid\ Sans\ Mono\ 10
-	"set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
-	"set guifont=Courier\ New\ 11
-	"set guifont=Andale\ Mono\ Normal\ 10
+	if has("gui_running")
+		set mouse		=a
+		set guitablabel	=%t
+
+		set guifont=Inconsolata\ 11
+		"set guifont=Liberation\ Mono\ 10
+		"set guifont=DejaVu\ Sans\ Mono\ 10
+		"set guifont=Monospace\ 10
+		"set guifont=Droid\ Sans\ Mono\ 10
+		"set guifont=Bitstream\ Vera\ Sans\ Mono\ 10
+		"set guifont=Courier\ New\ 11
+		"set guifont=Andale\ Mono\ Normal\ 10
+	endif
 endfunction
 " ------------------------------------------------------------------------------
 
@@ -735,9 +736,8 @@ if has("autocmd")
 	autocmd InsertLeave		*			if pumvisible() == 0|pclose|endif
 endif
 
-if has("gui_running")
-	call s:configure_gui()
-endif
+call s:configure_ui()
+
 " ------------------------------------------------------------------------------
 
 " vim:set ts=4 sw=4 filetype=vim:
