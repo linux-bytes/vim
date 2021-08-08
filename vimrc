@@ -708,6 +708,7 @@ call s:configure_plugins_manager()
 call s:configure_base_settings()
 call s:configure_file_encoding()
 call s:configure_global_shortkey()
+call s:configure_ui()
 
 if has("autocmd")
 	" set a default filetype if vim couldn't detect this file filetype.
@@ -735,8 +736,6 @@ if has("autocmd")
 	autocmd CursorMovedI	*			if pumvisible() == 0|pclose|endif
 	autocmd InsertLeave		*			if pumvisible() == 0|pclose|endif
 endif
-
-call s:configure_ui()
 
 " ------------------------------------------------------------------------------
 
