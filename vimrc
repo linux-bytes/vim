@@ -253,6 +253,19 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For Rtags
+" ------------------------------------------------------------------------------
+"
+function! s:configure_plugins_rtags()
+	let g:rtagsAutoLaunchRdm=1
+	noremap		fj				:RtagsFindSymbols <C-R>=expand("<cword>")<CR><CR>
+	noremap		ff				:RtagsFindRefsByName <C-R>=expand("<cword>")<CR><CR>
+	noremap		gj				:call rtags#JumpTo(g:SAME_WINDOW)<CR>
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For Vim-go
 " ------------------------------------------------------------------------------
 "
@@ -367,6 +380,7 @@ function! s:configure_plugins_manager()
 	" disabled. jedi-vim is only for python.
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python'], 'do': function('BuildYouCompleteMe') }
 	" Plug 'davidhalter/jedi-vim'
+	Plug 'lyuts/vim-rtags', {'for': ['c', 'h', 'asm', 'cpp']}
 
 	Plug 'fatih/vim-go'
 
@@ -406,6 +420,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_fzf()
 	call s:configure_plugins_ycm()
+	call s:configure_plugins_rtags()
 	call s:configure_plugins_vimgo()
 	call s:configure_plugins_ack()
 	call s:configure_plugins_tagbar()
