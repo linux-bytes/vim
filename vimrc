@@ -76,8 +76,8 @@ function! s:configure_plugins_airline()
 	"let g:airline#extensions#tabline#left_sep		=' '
 	"let g:airline#extensions#tabline#left_alt_sep	='|'
 
-	nmap	tt					<Plug>AirlineSelectNextTab
-	nmap	TT					<Plug>AirlineSelectPrevTab
+	nmap	ff					<Plug>AirlineSelectNextTab
+	nmap	FF					<Plug>AirlineSelectPrevTab
 	if has("gui_running")
 		nmap <c-pagedown>		<Plug>AirlineSelectNextTab
 		nmap <c-pageup>			<Plug>AirlineSelectPrevTab
@@ -269,8 +269,8 @@ endfunction
 "
 function! s:configure_plugins_rtags()
 	let g:rtagsAutoLaunchRdm=1
-	noremap		fj				:RtagsFindSymbols <C-R>=expand("<cword>")<CR><CR>
-	noremap		ff				:RtagsFindRefsByName <C-R>=expand("<cword>")<CR><CR>
+	noremap		gs				:RtagsFindSymbols <C-R>=expand("<cword>")<CR><CR>
+	noremap		gr				:RtagsFindRefsByName <C-R>=expand("<cword>")<CR><CR>
 	noremap		gj				:call rtags#JumpTo(g:SAME_WINDOW)<CR>
 endfunction
 " ------------------------------------------------------------------------------
@@ -653,7 +653,7 @@ endfunction
 " ------------------------------------------------------------------------------
 "
 function! s:configure_ft_py()
-	setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=80 noexpandtab
+	setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=80 expandtab
 
 	let g:pydoc_cmd      ='/usr/bin/pydoc2.7'
 endfunction
