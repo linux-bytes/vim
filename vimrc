@@ -395,6 +395,8 @@ function! s:configure_plugins_manager()
 
 	Plug 'fatih/vim-go'
 
+	Plug 'https://gn.googlesource.com/gn', { 'rtp': 'misc/vim' }
+
 	Plug 'mileszs/ack.vim'
 	Plug 'rking/ag.vim'
 
