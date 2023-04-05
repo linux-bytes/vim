@@ -485,6 +485,8 @@ function! s:configure_base_settings()
 	set showcmd
 
 	set bg=dark
+	let g:gruvbox_guisp_fallback = "bg"
+	let g:gruvbox_contrast_light = "hard"
 	colorscheme gruvbox
 
 	set laststatus=2
