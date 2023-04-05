@@ -462,6 +462,10 @@ function! s:configure_base_settings()
 	filetype plugin on
 	filetype indent on
 
+	set hidden			" 缓冲区即便有修改，也可以切换
+	set updatetime=1000	" 文件交互区中的内容 1000ms 之后就会写入文件
+	let g:is_bash=1		" 未知那种 shell 文件，默认使用bash
+
 	set nobackup
 	set nowb
 	set noswapfile
