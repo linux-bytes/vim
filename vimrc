@@ -277,6 +277,53 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For lsp
+" ------------------------------------------------------------------------------
+"
+" set verbose=1
+"
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+
+    nmap		<buffer> gd				<plug>(lsp-definition)
+    nmap		<buffer> gs				<plug>(lsp-document-symbol-search)
+    nmap		<buffer> gS				<plug>(lsp-workspace-symbol-search)
+    nmap		<buffer> gr				<plug>(lsp-references)
+    nmap		<buffer> gi				<plug>(lsp-implementation)
+    nmap		<buffer> gt				<plug>(lsp-type-definition)
+    nmap		<buffer> rn				<plug>(lsp-rename)
+    nmap		<buffer> [g				<plug>(lsp-previous-diagnostic)
+    nmap		<buffer> ]g				<plug>(lsp-next-diagnostic)
+    nmap		<buffer> F				<plug>(lsp-hover)
+    nnoremap	<buffer> <expr><c-f>	lsp#scroll(+4)
+    nnoremap	<buffer> <expr><c-d>	lsp#scroll(-4)
+
+    let g:lsp_format_sync_timeout = 1000
+
+    autocmd! BufWritePre *.rs,*.go		call execute('LspDocumentFormatSync')
+
+    " refer to doc to add more commands
+endfunction
+
+function! s:configure_plugins_lsp()
+    if executable('pylsp')
+        " pip install python-lsp-server
+        au User lsp_setup call lsp#register_server({
+            \ 'name': 'pylsp',
+            \ 'cmd': {server_info->['pylsp']},
+            \ 'allowlist': ['python'],
+            \ })
+    endif
+
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For Vim-go
 " ------------------------------------------------------------------------------
 "
@@ -402,7 +449,8 @@ function! s:configure_plugins_manager()
 	" disabled. jedi-vim is only for python.
 	Plug 'Valloric/YouCompleteMe', {'for': ['c', 'h', 'cpp', 'python'], 'do': function('BuildYouCompleteMe') }
 	" Plug 'davidhalter/jedi-vim'
-	Plug 'lyuts/vim-rtags'
+	Plug 'prabirshrestha/vim-lsp'
+	Plug 'mattn/vim-lsp-settings'
 
 	Plug 'fatih/vim-go'
 
@@ -444,7 +492,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_gitgutter()
 	call s:configure_plugins_fzf()
 	call s:configure_plugins_ycm()
-	call s:configure_plugins_rtags()
+	call s:configure_plugins_lsp()
 	call s:configure_plugins_vimgo()
 	call s:configure_plugins_ack()
 	call s:configure_plugins_interestingwords()
