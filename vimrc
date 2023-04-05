@@ -306,6 +306,17 @@ endfunction
 
 
 " ------------------------------------------------------------------------------
+" For interestingwords
+" ------------------------------------------------------------------------------
+"
+function!  s:configure_plugins_interestingwords()
+	let g:interestingWordsGUIColors = ['#8CCBEA', '#A4E57E', '#FFDB72', '#FF7272', '#FFB3FF', '#9999FF']
+	" let g:interestingWordsRandomiseColors = 1
+endfunction
+" ------------------------------------------------------------------------------
+
+
+" ------------------------------------------------------------------------------
 " For Tagbar
 " ------------------------------------------------------------------------------
 "
@@ -436,6 +447,7 @@ function! s:configure_plugins_manager()
 	call s:configure_plugins_rtags()
 	call s:configure_plugins_vimgo()
 	call s:configure_plugins_ack()
+	call s:configure_plugins_interestingwords()
 	call s:configure_plugins_tagbar()
 	call s:configure_plugins_signature()
 	call s:configure_plugins_plantuml()
