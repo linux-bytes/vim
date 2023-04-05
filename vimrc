@@ -111,8 +111,8 @@ function! s:configure_plugins_gitgutter()
 	" To turn off signs by default
 	" let g:gitgutter_signs			=0
 
-	" To turn on line highlighting by default
-	let g:gitgutter_highlight_lines	=1
+	" To turn off line highlighting by default
+	let g:gitgutter_highlight_lines	=0
 
 	" To turn off asynchronous updates
 	let g:gitgutter_async			=0
