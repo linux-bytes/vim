@@ -288,7 +288,7 @@ function! s:on_lsp_buffer_enabled() abort
 
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
 
-    nmap		<buffer> gd				<plug>(lsp-definition)
+    nmap		<buffer> fd				<plug>(lsp-definition)
     nmap		<buffer> gs				<plug>(lsp-document-symbol-search)
     nmap		<buffer> gS				<plug>(lsp-workspace-symbol-search)
     nmap		<buffer> gr				<plug>(lsp-references)
@@ -309,6 +309,9 @@ function! s:on_lsp_buffer_enabled() abort
 endfunction
 
 function! s:configure_plugins_lsp()
+	let g:lsp_diagnostics_enabled = 0
+	highlight lspReference ctermfg=red guifg=red ctermbg=green guibg=green
+
     if executable('pylsp')
         " pip install python-lsp-server
         au User lsp_setup call lsp#register_server({
